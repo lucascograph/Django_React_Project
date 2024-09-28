@@ -1,8 +1,7 @@
 from django.urls import path
-from rest_framework_simplejwt.views import TokenObtainPairView
-from .views import RegisterView
+from . import views
 
 urlpatterns = [
-    path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/register/', RegisterView.as_view(), name='register'),
+    path("flashcards/", views.ListCreateFlashCard.as_view(), name="list-flashcards"),
+    path("flashcards/delete/<int:pk>/", views.DeleteFlashCard.as_view(), name="delete-flashcard"),
 ]

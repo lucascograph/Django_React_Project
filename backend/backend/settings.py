@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000', 
+    'http://localhost:3000',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -89,12 +89,8 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'learnjap_database',
-        'USER': 'django_user',
-        'PASSWORD': 'django_password',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',  # Default: SQLite
+        'NAME': BASE_DIR / 'db.sqlite3',  # Database file will be stored here
     }
 }
 
@@ -102,7 +98,6 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
-AUTH_USER_MODEL = 'api.CustomUser'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

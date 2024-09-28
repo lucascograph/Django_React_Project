@@ -1,35 +1,28 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import CustomUser  
+from rest_framework.validators import UniqueValidator
+from .models import FlashCard
 
 class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ('id', 'username', 'email', 'password')
-        extra_kwargs = {
-            'password': {'write_only': True}
-        }
 
-    def create(self, validated_data):
-        user = CustomUser(**validated_data)
-        user.set_password(validated_data['password'])  # Hash the password
-        user.save()
-        return user
-    
-
-class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+    email = serializers.EmailField(
+        required=True,
+        validators=[UniqueValidator(queryset=User.objects.all(), message="A user with that email already exists.")],
+        help_text=("Email has to be unique")
+    )
 
     class Meta:
-        model = CustomUser
-        fields = ['id', 'username', 'email', 'password']  # Include the fields you want for registration
+        model = User
+        fields = ["id", "username", "email", "password"]
+        extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
-        user = CustomUser(
-            email=validated_data['email'],
-            username=validated_data['username'],
-        )
-        user.set_password(validated_data['password'])  # Set the hashed password
-        user.save()
+        user = User.objects.create_user(**validated_data)
         return user
 
 
+class FlashCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FlashCard
+        fields = ["id", "author", "front", "back", "date_created"]
+        extra_kwargs = {"author": {"read_only": True}}
