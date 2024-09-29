@@ -61,58 +61,60 @@ const UserForm = ({ method }) => {
     };
 
     return (
-        <div className='wrapper'>
-            <h2>{method === 'register' ? 'New User' : 'Login'}</h2>
-            <form onSubmit={handleSubmit}>
-                <div className='input-box'>
-                    <input
-                        type="text"
-                        placeholder='Username'
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    />
-                    <FaUser className='icon' />
-                </div>
-                {method === 'register' && (
+        <div className='form-box'>
+            <div className='wrapper'>
+                <h2>{method === 'register' ? 'New User' : 'Login'}</h2>
+                <form onSubmit={handleSubmit}>
                     <div className='input-box'>
                         <input
-                            type="email"
-                            placeholder='Email'
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            type="text"
+                            placeholder='Username'
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
                             required
                         />
-                        <MdEmail className='icon' />
+                        <FaUser className='icon' />
                     </div>
-                )}
-                <div className='input-box'>
-                    <input
-                        type="password"
-                        placeholder='Password'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                    <FaLock className='icon' />
-                </div>
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-                <button type="submit">{method === 'register' ? 'Sign Up' : 'Login'}</button>
-                {method === 'login' && (
-                    <div>
-                        <div className='remember-me'>
-                            <label>
-                                <input type='checkbox' checked={rememberMe} onChange={handleCheckBoxChange} />
-                                Remember me
-                            </label>
+                    {method === 'register' && (
+                        <div className='input-box'>
+                            <input
+                                type="email"
+                                placeholder='Email'
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
+                            <MdEmail className='icon' />
                         </div>
-                        <div className='links'>
-                            <a className="link" href='#'>Forgot Password?</a>
-                            <a className="link" href={import.meta.env.VITE_FRONT_URL + '/register/'}>Sign Up</a>
-                        </div>
+                    )}
+                    <div className='input-box'>
+                        <input
+                            type="password"
+                            placeholder='Password'
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                        <FaLock className='icon' />
                     </div>
-                )}
-            </form>
+                    {error && <p style={{ color: 'red' }}>{error}</p>}
+                    <button type="submit">{method === 'register' ? 'Sign Up' : 'Login'}</button>
+                    {method === 'login' && (
+                        <div>
+                            <div className='remember-me'>
+                                <label>
+                                    <input type='checkbox' checked={rememberMe} onChange={handleCheckBoxChange} />
+                                    Remember me
+                                </label>
+                            </div>
+                            <div className='links'>
+                                <a className="link" href='#'>Forgot Password?</a>
+                                <a className="link" href={import.meta.env.VITE_FRONT_URL + '/register/'}>Sign Up</a>
+                            </div>
+                        </div>
+                    )}
+                </form>
+            </div>
         </div>
     );
 };

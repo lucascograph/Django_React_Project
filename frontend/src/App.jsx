@@ -3,6 +3,9 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Profile from "./Pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Keigo from "./Pages/Keigo";
+import Bunpo from "./Pages/Bunpo";
+import Kanji from "./Pages/Kanji";
 import NotFound from "./Pages/NotFound";
 
 function Logout() {
@@ -25,6 +28,21 @@ function App() {
           <Route path="/" element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          }/>
+          <Route path="/kanji" element={
+            <ProtectedRoute>
+              <Keigo />
+            </ProtectedRoute>
+          }/>
+          <Route path="/keigo" element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }/>
+          <Route path="/bunpo" element={
+            <ProtectedRoute>
+              <Keigo />
             </ProtectedRoute>
           }/>
           <Route path="/register" element={<RegisterAndLogout />} />

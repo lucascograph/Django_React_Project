@@ -1,6 +1,73 @@
+.active {
+    box-shadow: 
+        12px 12px 12px rgba(18, 18, 18, 0.9) inset,
+        -10px -10px 10px rgb(45,45,45) inset;
+}
+
 nav {
     display: flex;
     justify-content: space-between;
+    height: 3rem;
+    background-color: rgb(35, 35, 35);
+}
+
+.home {
+    display: flex;
+    justify-content: center;
     align-items: center;
-    background-color: seagreen;
+    margin: 1rem;
+}
+
+.home a {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
+}
+
+.logout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+}
+
+.logout a {
+    font-size: 0.8rem;
+    text-decoration: underline;
+    color: #fff;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav ul li {
+    list-style: none;
+    border-radius: 0.2rem;
+}
+
+nav ul li a {
+    font-size: 1.5rem;
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem 3rem 0.5rem;
+    margin-left: 0.5rem;
+}
+
+/* This is for having the tab stick out when hovering. but i didn't like it for now. 
+nav ul li a:hover {
+    box-shadow: 
+        12px 12px 12px rgba(18, 18, 18, 0.9),
+        -10px -10px 10px rgb(40,40,40);
+} */
+
+nav ul li a:hover {
+    box-shadow: 
+        12px 12px 12px rgba(18, 18, 18, 0.9) inset,
+        -10px -10px 10px rgb(45,45,45) inset;
 }
