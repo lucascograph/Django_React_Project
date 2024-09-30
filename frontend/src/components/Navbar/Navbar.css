@@ -1,7 +1,7 @@
 .active {
     box-shadow: 
-        12px 12px 12px rgba(18, 18, 18, 0.9) inset,
-        -10px -10px 10px rgb(45,45,45) inset;
+        12px 12px 12px rgba(0, 0, 0, 0.9) inset,
+        -10px -10px 10px rgb(95,95,95) inset;
 }
 
 nav {
@@ -68,6 +68,8 @@ nav ul li a:hover {
 
 nav ul li a:hover {
     box-shadow: 
-        12px 12px 12px rgba(18, 18, 18, 0.9) inset,
-        -10px -10px 10px rgb(45,45,45) inset;
+        /* 12px 12px 12px rgba(18, 18, 18, 0.9) inset,
+        -10px -10px 10px rgb(45,45,45) inset; */
+        12px 12px 12px rgba(0, 0, 0, 0.9) inset,
+        -10px -10px 10px rgb(95,95,95) inset;
 }

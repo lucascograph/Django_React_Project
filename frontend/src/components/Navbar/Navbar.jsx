@@ -8,6 +8,7 @@ export const Navbar = () => {
         <nav>
           <li className="home"><Link to="/">Home</Link></li>
           <ul>
+            <li><NavLink to="/flashcard">Flashcard</NavLink></li>
             <li><NavLink to="/kanji">Kanji</NavLink></li>
             <li><NavLink to="/keigo">Keigo</NavLink></li>
             <li><NavLink to="/bunpo">Bunpo</NavLink></li>

@@ -1,0 +1,52 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4vh;
+}
+
+.card {
+    display: grid;
+    justify-content: center;
+    height: 70vh;
+    width: 60vh;
+    background-color: white;
+    border-radius: 40px;
+    box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.4),
+    3px 3px 3px rgba(20, 20, 20, .3) inset;
+}
+
+.card-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 4vh;
+    margin: 30px;
+    color: rgb(180, 165, 165); 
+    font-style: italic;
+}
+
+.card .text-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    width: 56vh;
+    margin-top: -5vh;
+    padding: 5px;
+    border: 2px solid;
+    border-color: rgba(110, 110, 110, 0.4);
+    box-shadow: 5px 5px 5px rgba(110, 110, 110, 0.2) inset,
+    -5px -5px 5px rgba(110, 110, 110, 0.2) inset;
+    overflow: hidden;
+    word-wrap: break-word;
+}
+
+.text {
+    text-align: center;
+    margin: auto;
+    font-size: 5em;
+    overflow: hidden;
+}
+
+
