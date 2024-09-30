@@ -1,5 +1,6 @@
 import React, {useState, useEffect } from 'react'
 import './CreateFlashCard.css'
+import { Button } from '../Button/Button'
 
 
 
@@ -11,6 +12,10 @@ export const CreateFlashcard = ({ onCancel }) => {
     const handleDropdownChange = (event) => {
         setSelectedDeck(event.target.value)
         console.log(selectedDeck)
+    }
+
+    const handleCreate = () => {
+        console.log("create")
     }
 
     return (
@@ -30,6 +35,9 @@ export const CreateFlashcard = ({ onCancel }) => {
                     </div>
                     <input className='front-back-text' type='text' required />
                 </div>
+                <div className='deck-text'>
+                    New deck:
+                </div>
                 <div className='deck-picker'>
                     <select className='dropdown' value={decks} onChange={handleDropdownChange}>
                         <option value="" disabled>Select a deck</option>
@@ -39,11 +47,13 @@ export const CreateFlashcard = ({ onCancel }) => {
                             </option>
                         ))}
                     </select>
-                    New deck:<input className='deck-input' type='text' />
+                    <input className='deck-input' type='text' />
                 </div>
                 <div className='buttons'>
-                    <button className='button-30'>Create</button>
-                    <button className="button-30" onClick={onCancel}>Cancel</button>
+                    <Button onClick={handleCreate} text="Create" />
+                    <Button onClick={onCancel} text="Cancel" />
+                    {/* <button className='button-30'>Create</button>
+                    <button className="button-30" onClick={onCancel}>Cancel</button> */}
                 </div>
             </div> 
         </div>
