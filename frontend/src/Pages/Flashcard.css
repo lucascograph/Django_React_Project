@@ -1,6 +1,15 @@
 .button-row {
-    background-color: seagreen;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.card-box {
+    border-radius: 40px;
+    margin: 0 35% 0;
+    cursor: pointer;
+}
+
+.card-box:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
 }

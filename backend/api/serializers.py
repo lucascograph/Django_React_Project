@@ -24,5 +24,5 @@ class UserSerializer(serializers.ModelSerializer):
 class FlashCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = FlashCard
-        fields = ["id", "author", "front", "back", "date_created"]
+        fields = ["id", "author", "front", "back", "deck", "date_created"]
         extra_kwargs = {"author": {"read_only": True}}
