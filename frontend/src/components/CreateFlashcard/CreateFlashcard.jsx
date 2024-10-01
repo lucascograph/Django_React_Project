@@ -5,7 +5,7 @@ import { Button } from '../Button/Button'
 
 
 
-export const CreateFlashcard = ({ deckList, onCancel }) => {
+export const CreateFlashcard = ({ deckList, onCreate, onCancel }) => {
     const [ frontText, setFrontText ] = useState("")
     const [ backText, setBackText ] = useState("")
     const [ newDeckInput, setNewDeckInput ] = useState("")
@@ -44,6 +44,8 @@ export const CreateFlashcard = ({ deckList, onCancel }) => {
             console.log(error)
             console.error('Error details:', error.response ? error.response.data : error.message);
         }
+
+        onCreate()
     }
 
     return (

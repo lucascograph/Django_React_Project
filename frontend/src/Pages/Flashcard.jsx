@@ -12,6 +12,7 @@ export const Flashcard = () => {
   const [ currentDeck, setCurrentDeck ] = useState("")
   const [ cardList, setCardList ] = useState([])
   const [ isShowingFront, setIsShowingFront ] = useState(true)
+  const [refreshDecks, setRefreshDecks] = useState(false);
 
   useEffect(() => {
       const fetchDecks = async () => {
@@ -27,7 +28,7 @@ export const Flashcard = () => {
 
       fetchDecks()
 
-    }, [])
+    }, [refreshDecks])
 
   useEffect(() => {
       const fetchCards = async () => {
@@ -41,13 +42,22 @@ export const Flashcard = () => {
       fetchCards()
   }, [currentDeck])
 
-  const handleCreateCardClick = () => {
+  const handleAddCardClick = () => {
     setIsCreatingFlashcard(true)
   }
 
   const handleCancelClick = () => {
     setIsCreatingFlashcard(false)
   }
+
+  const handleCreateClick = () => {
+    setRefreshDecks((prev => !prev))
+  }
+
+  const handleDeckSelect = (deck) => {
+    setCurrentDeck(deck);
+  };
+
 
   const handleClickOnCard = () => {
     setIsShowingFront((prev) => !prev)
@@ -57,19 +67,33 @@ export const Flashcard = () => {
     <div>
       <Navbar />
       {isCreatingFlashcard ? 
-      (<CreateFlashcard deckList={deckList} onCancel={handleCancelClick}/>) : (
+      (<CreateFlashcard deckList={deckList} onCreate={handleCreateClick} onCancel={handleCancelClick}/>) : (
         <div className='container-body'>
           <div className='middle-body'>
             <div className='button-row'>
-              <button className='button-30' id='select-btn' onClick={handleCreateCardClick}>
+              <button className='button-30' id='select-btn' onClick={handleAddCardClick}>
                 Select Deck
               </button>
-              <button className='button-30' id='create-btn' onClick={handleCreateCardClick}>
+              <button className='button-30' id='create-btn' onClick={handleAddCardClick}>
                 Add card
               </button>
-              <button className='button-30' id='share-btn' onClick={handleCreateCardClick}>
+              <button className='button-30' id='share-btn' onClick={handleAddCardClick}>
                 Share/Import deck
               </button>
+            </div>
+            <div className='deck-list'>
+              <h3>Select a Deck:</h3>
+              <ul>
+                {deckList.map((deck, index) => (
+                  <li 
+                    key={index} 
+                    onClick={() => handleDeckSelect(deck)} 
+                    style={{ cursor: 'pointer', padding: '5px', backgroundColor: currentDeck === deck ? '#e0e0e0' : 'transparent' }}
+                  >
+                    {deck}
+                  </li>
+                ))}
+              </ul>
             </div>
             {cardList.length > 0 ? (
               <div className='card-box' onClick={handleClickOnCard}>
