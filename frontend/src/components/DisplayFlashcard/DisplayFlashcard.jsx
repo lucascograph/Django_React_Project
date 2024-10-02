@@ -3,7 +3,6 @@ import "./DisplayFlashcard.css";
 
 export const DisplayFlashcard = ({ deck, text, date }) => {
     return (
-        <div className="container">
             <div className="card">
                 <div className="card-info">
                     <div className="deck">Deck: {deck}</div>
@@ -17,6 +16,5 @@ export const DisplayFlashcard = ({ deck, text, date }) => {
                     </div>
                 </div>
             </div>
-        </div>
     );
 }

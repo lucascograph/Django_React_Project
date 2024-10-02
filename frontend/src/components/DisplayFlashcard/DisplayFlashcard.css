@@ -1,18 +1,12 @@
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 4vh;
-}
-
 .card {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 60vh;
-    width: 30vw;
+    height: 600px;
+    width: 550px;
     background-color: white;
+    gap: 4vh;
     border-radius: 40px;
     box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.4),
     3px 3px 3px rgba(20, 20, 20, .3) inset;
@@ -35,13 +29,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 90%;
-    margin-bottom: 5vh;
+    width: 84%;
     color: rgb(180, 165, 165); 
     font-style: italic;
 }
 
-.card .text-box {
+.text-box {
     display: flex;
     height:70%; 
     width: 90%;

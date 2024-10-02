@@ -1,15 +1,73 @@
-.button-row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80vh;
+}
+
+.left-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30vw;
+  gap: 20px;
+}
+
+.deck-list {
+  margin-top: 10vh;
+  margin-bottom: 20vh;
+}
+
+.right-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70vw;
+  margin-top: 10vh;
 }
 
 .card-box {
-    border-radius: 40px;
-    margin: 0 35% 0;
-    cursor: pointer;
+  margin-left: 10vw;
+  margin-bottom: 5vh;
 }
 
-.card-box:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+.next-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.next-btn button {
+  margin-left: 10vw;
+}
+
+@media (min-width: 950px) {
+    .content {
+      justify-content: center;
+    }
+
+    .right-side {
+      width: 1000px;
+    }
+
+    .card-box {
+      margin-left: -10vw;
+    }
+
+    .next-btn button{
+      margin-left: -10vw;
+    }
+
+}
+
+.deck-list {
+ 
+}
+
+.card-box {
 }

@@ -49,57 +49,53 @@ export const CreateFlashcard = ({ deckList, onCreate, onCancel }) => {
     }
 
     return (
-        <div className='container'>
             <div className='card-form'>
                 <div className='title'>
                     <h2>New Flashcard:</h2>
                 </div>
                 <div className='card-inputs'>
-                    <div className='front-text'>
-                        Frontside
-                    </div>
+                    Frontside:
                     <input 
-                        className='front-back-text'
+                        className='text-input'
                         type='text'
                         value={frontText} 
                         onChange={(e) => setFrontText(e.target.value)} 
                         required
                     />
-                    <div className='back-text'>
-                        Backside
-                    </div>
+                    Backside:
                     <input 
-                        className='front-back-text' 
+                        className='text-input' 
                         type='text' 
                         value={backText} 
                         onChange={(e) => setBackText(e.target.value)} 
                         required
                     />
                 </div>
-                <div className='deck-text'>
-                    New deck:
-                </div>
-                <div className='deck-picker'>
-                    <select className='dropdown' value={dropdownTitle} onChange={handleDropdownChange}>
-                        <option value="" disabled>Select a deck</option>
-                        {deckList.map((deck, index) => (
-                                <option key={index} value={deck}>
-                                    {deck}
-                                </option>)
-                            )}
-                    </select>
-                    <input 
-                        className='deck-input' 
-                        type='text'
-                        value={newDeckInput} 
-                        onChange={handleDeckInput} 
-                    />
+                <div className='deck-input'>
+                    <div className='new-deck-title'>
+                        New deck:
+                    </div>
+                    <div className='dropdown-text-inputs'>
+                        <select className='dropdown' value={dropdownTitle} onChange={handleDropdownChange}>
+                            <option value="" disabled>Select a deck</option>
+                            {deckList.map((deck, index) => (
+                                    <option key={index} value={deck}>
+                                        {deck}
+                                    </option>)
+                                )}
+                        </select>
+                        <input 
+                            className='new-deck-input' 
+                            type='text'
+                            value={newDeckInput} 
+                            onChange={handleDeckInput} 
+                        />
+                    </div>
                 </div>
                 <div className='buttons'>
-                    <Button onClick={handleCreate} text="Create" />
-                    <Button onClick={onCancel} text="Cancel" />
+                    <Button onClick={handleCreate} text="Create" size="medium" />
+                    <Button onClick={onCancel} text="Cancel" size="small"/>
                 </div>
             </div> 
-        </div>
     );
 }
