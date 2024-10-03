@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     height: 600px;
-    width: 550px;
+    width: 560px;
     background-color: white;
     gap: 4vh;
     border-radius: 40px;
@@ -30,13 +30,13 @@
     justify-content: space-between;
     align-items: center;
     width: 84%;
-    color: rgb(180, 165, 165); 
+    color: rgb(180, 165, 165);
     font-style: italic;
 }
 
 .text-box {
     display: flex;
-    height:70%; 
+    height:70%;
     width: 90%;
     border: 2px solid;
     border-color: rgba(110, 110, 110, 0.4);

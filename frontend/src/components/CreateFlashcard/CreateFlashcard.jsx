@@ -30,6 +30,7 @@ export const CreateFlashcard = ({ deckList, onCreate, onCancel }) => {
 
     const handleCreate = async (e) => {
         e.preventDefault()
+        let new_card = null
 
         console.log(`Creating: ${frontText}, ${backText}, ${selectedDeck}`)
         try {
@@ -38,14 +39,14 @@ export const CreateFlashcard = ({ deckList, onCreate, onCancel }) => {
                     back: backText,
                     deck: selectedDeck,
                 });
-
+                new_card = response.data
                 console.log(response)
         } catch (error) {
             console.log(error)
             console.error('Error details:', error.response ? error.response.data : error.message);
         }
 
-        onCreate()
+        onCreate(new_card)
     }
 
     return (
@@ -55,19 +56,19 @@ export const CreateFlashcard = ({ deckList, onCreate, onCancel }) => {
                 </div>
                 <div className='card-inputs'>
                     Frontside:
-                    <input 
+                    <input
                         className='text-input'
                         type='text'
-                        value={frontText} 
-                        onChange={(e) => setFrontText(e.target.value)} 
+                        value={frontText}
+                        onChange={(e) => setFrontText(e.target.value)}
                         required
                     />
                     Backside:
-                    <input 
-                        className='text-input' 
-                        type='text' 
-                        value={backText} 
-                        onChange={(e) => setBackText(e.target.value)} 
+                    <input
+                        className='text-input'
+                        type='text'
+                        value={backText}
+                        onChange={(e) => setBackText(e.target.value)}
                         required
                     />
                 </div>
@@ -84,11 +85,11 @@ export const CreateFlashcard = ({ deckList, onCreate, onCancel }) => {
                                     </option>)
                                 )}
                         </select>
-                        <input 
-                            className='new-deck-input' 
+                        <input
+                            className='new-deck-input'
                             type='text'
-                            value={newDeckInput} 
-                            onChange={handleDeckInput} 
+                            value={newDeckInput}
+                            onChange={handleDeckInput}
                         />
                     </div>
                 </div>
@@ -96,6 +97,6 @@ export const CreateFlashcard = ({ deckList, onCreate, onCancel }) => {
                     <Button onClick={handleCreate} text="Create" size="medium" />
                     <Button onClick={onCancel} text="Cancel" size="small"/>
                 </div>
-            </div> 
+            </div>
     );
 }

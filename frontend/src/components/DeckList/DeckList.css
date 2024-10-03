@@ -1,8 +1,8 @@
 .box {
+  background-color: white;
   width: 250px;
   border-bottom: 25px solid #2e2e2e;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-radius: 20px;
   box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.4);
 }
 .box h2 {
@@ -10,7 +10,7 @@
   justify-content: center;
   color: #fff;
   background: #2e2e2e;
-  padding: 15px;
+  padding: 10px;
   font-size: 30px;
   font-weight: 600;
   border-top-left-radius: 20px;
@@ -19,6 +19,7 @@
 .box ul {
   position: relative;
   background: #fff;
+  margin: 5px 0 5px;
 }
 .box ul:hover li {
   opacity: 0.4;

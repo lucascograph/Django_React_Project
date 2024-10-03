@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import api from '../Api'
 import { Navbar } from '../components/Navbar/Navbar'
 import { DisplayFlashcard } from '../components/DisplayFlashcard/DisplayFlashcard'
@@ -17,6 +17,7 @@ export const Flashcard = () => {
   const [refreshDecks, setRefreshDecks] = useState(false)
   const [ currentCard, setCurrentCard ] = useState(null)
   const [ clearedCards, setClearedCards ] = useState([])
+  const [ refreshPage, setRefreshPage ] = useState(false)
 
   useEffect(() => {
       const fetchDecks = async () => {
@@ -24,11 +25,11 @@ export const Flashcard = () => {
           setDeckList(response.data) // get a list from api of unique decks
 
           if (response.data.length > 0) {
-              setCurrentDeck(response.data[0]); // Set the first deck as the current deck
+              setCurrentDeck(response.data[0]); // set the first deck as the current deck
           } else {
               setCurrentDeck('');
           }
-      }       
+      }
 
       fetchDecks()
 
@@ -45,6 +46,7 @@ export const Flashcard = () => {
       }
 
       fetchCards()
+      setClearedCards([])
   }, [currentDeck])
 
   const handleAddCardClick = () => {
@@ -55,44 +57,53 @@ export const Flashcard = () => {
     setIsCreatingFlashcard(false)
   }
 
-  const handleCreateClick = () => {
+  const handleCreateClick = (new_card) => {
     setRefreshDecks((prev => !prev))
+    setCardList((cardList) => [
+      [...cardList, new_card]
+    ])
     setIsCreatingFlashcard(false)
+    setCurrentCard(new_card)
   }
 
   const handleDeckSelect = (deck) => {
     setCurrentDeck(deck);
     setIsShowingFront(true)
-  };
-
+  }
 
   const handleClickOnCard = () => {
     setIsShowingFront((prev) => !prev)
   }
 
   const handleNextClick = () => {
-    
+
     setIsShowingFront(true)
 
     if (cardList.length > 1) {
       const remainingCards = cardList.filter((card) => card !== currentCard);
       setClearedCards([...clearedCards, currentCard]);
-      
+
       const randomIndex = Math.floor(Math.random() * remainingCards.length);
       setCurrentCard(remainingCards[randomIndex]);
-      
+
       setCardList(remainingCards);
     } else if (cardList.length === 1) {
       setClearedCards([...clearedCards, currentCard]);
       setCardList([]);
-      setCurrentCard(null); 
+      setCurrentCard(null);
+    }
   }
-};
+
+  const handleResetDeckClick = () => {
+    setCardList(clearedCards)
+    setCurrentCard(clearedCards[Math.floor(Math.random() * clearedCards.length)])
+    setRefreshPage(prev => !prev)
+  }
 
   return (
     <div className='container'>
       <Navbar />
-        {isCreatingFlashcard ? 
+        {isCreatingFlashcard ?
           (
             <CreateFlashcard deckList={deckList} onCreate={handleCreateClick} onCancel={handleCancelClick}/>
           ) : (
@@ -101,25 +112,37 @@ export const Flashcard = () => {
               <div className='deck-list'>
                 <DeckList onClick={handleDeckSelect} decks={deckList} currentDeck={currentDeck} />
               </div>
-              <Button onClick={handleAddCardClick} text="New Card" size="medium" />
-              <Button onClick={handleAddCardClick} text="Export Deck" size="medium" />
+              <Button onClick={handleAddCardClick} text="New Card" />
+              <Button onClick={handleAddCardClick} text="Export Deck" />
             </div>
             <div className='right-side'>
             {cardList.length > 0 ?
               (
                 <>
-                <div className='card-box' onClick={handleClickOnCard}>
-                    <DisplayFlashcard 
-                      deck={currentDeck} 
-                      text={isShowingFront ? currentCard["front"] : currentCard["back"]} 
-                      date={currentCard.date_created} />
-                </div>
-                <div className='next-btn'>
-                  <Button onClick={handleNextClick} text="Next" size="large" />
-                </div>
+                {currentCard ? (
+                  <div>
+                    <div className='card-box' onClick={handleClickOnCard}>
+                        <DisplayFlashcard
+                          deck={currentDeck}
+                          text={isShowingFront ? currentCard["front"] : currentCard["back"]}
+                          date={currentCard.date_created} />
+                    </div>
+                    <div className='btn-box'>
+                      <Button onClick={handleNextClick} text="Next" />
+                    </div>
+                  </div>
+              ) : (
+                  <div>No cards available</div>
+                )}
                 </>
               ) : (
-                <p>Cleared all cards in current deck. Choose another deck!</p>
+                <>
+                {deckList.length >= 0 ? (
+                  <Button onClick={handleResetDeckClick} text="Reset deck" />
+                ) : (
+                  <p>Create new cards, and start practicing!</p>
+                )}
+                </>
               )}
               </div>
             </div>
