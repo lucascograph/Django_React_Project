@@ -26,6 +26,21 @@ class ListCreateFlashCard(generics.ListCreateAPIView):
             print(serializer.errors)
 
 
+class UpdateFlashCard(generics.UpdateAPIView):
+    serializer_class = FlashCardSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return FlashCard.objects.filter(author=user)
+
+    def perform_update(self, serializer):
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            print(serializer.errors)
+
+
 class DeleteFlashCard(generics.DestroyAPIView):
     serializer_class = FlashCardSerializer
     permission_classes = [IsAuthenticated]

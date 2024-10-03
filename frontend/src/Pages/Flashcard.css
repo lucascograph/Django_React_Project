@@ -3,9 +3,15 @@
   flex-direction: column;
 }
 
+.create-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+
 .content {
   display: flex;
-  justify-content: space-between;
   margin-top: 5vh;
   height: 80vh;
 }
@@ -13,41 +19,47 @@
 .left-side {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 30vw;
+  justify-content: space-between;
+  align-items: end;
+  width: 20vw;
   gap: 20px;
 }
 
 .deck-list {
-  margin-bottom: 20vh;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.left-btn-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 2vh;
 }
 
 .left-side button {
-  width: 220px;
-  height: 50px;
+  height: 5vh;
+  width: 10vw;
 }
 
 .right-side {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  width: 70vw;
+  height: 83vh;
+  width: 60vw;
   z-index: 9999;
 }
 
-.card-box {
-  margin-bottom: 5vh;
-}
-
-.right-side .btn-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .right-side button {
-  width: 400px;
-  height: 80px;
+  height: 10vh;
+  width: 25vw;
+  font-size: 1.5rem;
+  font-style: italic;
+  font-weight: 400;
 }
 
 

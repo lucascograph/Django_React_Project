@@ -10,11 +10,12 @@ import "./Flashcard.css"
 export const Flashcard = () => {
 
   const [ isCreatingFlashcard, setIsCreatingFlashcard ] = useState(false)
+  const [ isEditingFlashcard, setIsEditingFlashcard ] = useState(false)
   const [ deckList, setDeckList ] = useState([])
   const [ currentDeck, setCurrentDeck ] = useState("")
   const [ cardList, setCardList ] = useState([])
   const [ isShowingFront, setIsShowingFront ] = useState(true)
-  const [refreshDecks, setRefreshDecks] = useState(false)
+  const [ refreshDecks, setRefreshDecks ] = useState(false)
   const [ currentCard, setCurrentCard ] = useState(null)
   const [ clearedCards, setClearedCards ] = useState([])
   const [ refreshPage, setRefreshPage ] = useState(false)
@@ -53,8 +54,15 @@ export const Flashcard = () => {
     setIsCreatingFlashcard(true)
   }
 
+  const handleEditCardClick = () => {
+    if (currentCard !== null) {
+      setIsEditingFlashcard(true)
+    }
+}
+
   const handleCancelClick = () => {
     setIsCreatingFlashcard(false)
+    setIsEditingFlashcard(false)
   }
 
   const handleCreateClick = (new_card) => {
@@ -64,6 +72,13 @@ export const Flashcard = () => {
     ])
     setIsCreatingFlashcard(false)
     setCurrentCard(new_card)
+  }
+
+  const handleEditClick = (edited_card) => {
+    setRefreshDecks((prev => !prev))
+    setIsCreatingFlashcard(false)
+    setCurrentCard(edited_card)
+    setIsEditingFlashcard(false)
   }
 
   const handleDeckSelect = (deck) => {
@@ -103,34 +118,49 @@ export const Flashcard = () => {
   return (
     <div className='container'>
       <Navbar />
-        {isCreatingFlashcard ?
+        {isCreatingFlashcard || isEditingFlashcard ?
           (
-            <CreateFlashcard deckList={deckList} onCreate={handleCreateClick} onCancel={handleCancelClick}/>
+            <div className='create-content'>
+              <CreateFlashcard
+              deckList={deckList}
+              currentDeck={currentDeck}
+              currentCardId={currentCard ? currentCard["id"] : null}
+              currentCardFront={isEditingFlashcard ? currentCard["front"] : ""}
+              currentCardBack={isEditingFlashcard ? currentCard["back"] : ""}
+              onSubmit={isCreatingFlashcard ? handleCreateClick : handleEditClick}
+              onCancel={handleCancelClick}
+              titleText={isCreatingFlashcard ? "New" : "Edit"}
+              btnText={isCreatingFlashcard ? "Create" : "Edit"}
+              />
+            </div>
           ) : (
             <div className="content">
             <div className='left-side'>
               <div className='deck-list'>
                 <DeckList onClick={handleDeckSelect} decks={deckList} currentDeck={currentDeck} />
               </div>
+              <div className='left-btn-box'>
               <Button onClick={handleAddCardClick} text="New Card" />
+              <Button onClick={handleEditCardClick} text="Edit card" />
               <Button onClick={handleAddCardClick} text="Export Deck" />
+              </div>
             </div>
             <div className='right-side'>
             {cardList.length > 0 ?
               (
                 <>
                 {currentCard ? (
-                  <div>
+                  <>
                     <div className='card-box' onClick={handleClickOnCard}>
                         <DisplayFlashcard
                           deck={currentDeck}
                           text={isShowingFront ? currentCard["front"] : currentCard["back"]}
                           date={currentCard.date_created} />
                     </div>
-                    <div className='btn-box'>
+                    <div className='right-btn-box'>
                       <Button onClick={handleNextClick} text="Next" />
                     </div>
-                  </div>
+                  </>
               ) : (
                   <div>No cards available</div>
                 )}
@@ -138,7 +168,7 @@ export const Flashcard = () => {
               ) : (
                 <>
                 {deckList.length >= 0 ? (
-                  <Button onClick={handleResetDeckClick} text="Reset deck" />
+                  <Button onClick={handleResetDeckClick} text="Reset" />
                 ) : (
                   <p>Create new cards, and start practicing!</p>
                 )}
