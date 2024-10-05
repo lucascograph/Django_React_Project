@@ -54,12 +54,24 @@
   z-index: 9999;
 }
 
-.right-side button {
+.right-btn-box button{
   height: 10vh;
   width: 25vw;
   font-size: 1.5rem;
   font-style: italic;
   font-weight: 400;
+}
+
+.reset-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 20vw;
+}
+
+.reset-btn button {
+height: 15%;
 }
 
 

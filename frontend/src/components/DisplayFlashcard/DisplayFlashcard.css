@@ -25,11 +25,24 @@
     }
 }
 
+.top {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    gap: 2vh;
+}
+
+.trash-icon {
+    color: #6b6b6b;
+}
+.trash-icon:hover {
+    color: rgb(250, 62, 62);
+}
+
 .card-info {
     display: flex;
     justify-content: space-between;
     height: 6vh;
-    width: 84%;
     color: rgb(180, 165, 165);
     font-style: italic;
 }
@@ -53,3 +66,38 @@
     overflow: hidden;
 }
 
+.popup-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 99999;
+  position: absolute;
+  top: 15vh;
+  left: 35vw;
+  height: 25%;
+  width: 30%;
+  border-radius: 20px;
+  box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.4),
+    1px 1px 1px rgba(20, 20, 20, .3) inset;
+  background-color: rgb(255, 255, 255);
+}
+
+.popup-box p {
+  font-size: 1em;
+  padding: 1vh 5vw;
+
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  gap: 20%;
+}
+
+.popup-buttons button {
+    height: 50%;
+}

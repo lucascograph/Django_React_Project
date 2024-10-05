@@ -79,6 +79,8 @@ export const Flashcard = () => {
     setIsCreatingFlashcard(false)
     setCurrentCard(edited_card)
     setIsEditingFlashcard(false)
+    console.log("current deck: ",currentDeck)
+    console.log("cardlist: ", cardList)
   }
 
   const handleDeckSelect = (deck) => {
@@ -88,6 +90,7 @@ export const Flashcard = () => {
 
   const handleClickOnCard = () => {
     setIsShowingFront((prev) => !prev)
+    console.log(currentCard)
   }
 
   const handleNextClick = () => {
@@ -137,12 +140,12 @@ export const Flashcard = () => {
             <div className="content">
             <div className='left-side'>
               <div className='deck-list'>
-                <DeckList onClick={handleDeckSelect} decks={deckList} currentDeck={currentDeck} />
+                <DeckList onClick={handleDeckSelect} onDelete={setRefreshDecks} decks={deckList} currentDeck={currentDeck} />
               </div>
               <div className='left-btn-box'>
-              <Button onClick={handleAddCardClick} text="New Card" />
-              <Button onClick={handleEditCardClick} text="Edit card" />
-              <Button onClick={handleAddCardClick} text="Export Deck" />
+              <Button onClick={handleAddCardClick}>New Card</Button>
+              <Button onClick={handleEditCardClick}>Edit Card</Button>
+              <Button onClick={handleAddCardClick}>Export Deck</Button>
               </div>
             </div>
             <div className='right-side'>
@@ -153,12 +156,15 @@ export const Flashcard = () => {
                   <>
                     <div className='card-box' onClick={handleClickOnCard}>
                         <DisplayFlashcard
+                          id={currentCard["id"]}
                           deck={currentDeck}
                           text={isShowingFront ? currentCard["front"] : currentCard["back"]}
-                          date={currentCard.date_created} />
+                          date={currentCard.date_created}
+                          onDelete={setRefreshDecks}
+                        />
                     </div>
                     <div className='right-btn-box'>
-                      <Button onClick={handleNextClick} text="Next" />
+                      <Button onClick={handleNextClick}>Next</Button>
                     </div>
                   </>
               ) : (
@@ -168,7 +174,9 @@ export const Flashcard = () => {
               ) : (
                 <>
                 {deckList.length >= 0 ? (
-                  <Button onClick={handleResetDeckClick} text="Reset" />
+                  <div className='reset-btn'>
+                    <Button onClick={handleResetDeckClick}>Reset</Button>
+                  </div>
                 ) : (
                   <p>Create new cards, and start practicing!</p>
                 )}

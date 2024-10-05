@@ -42,12 +42,35 @@ class UpdateFlashCard(generics.UpdateAPIView):
 
 
 class DeleteFlashCard(generics.DestroyAPIView):
-    serializer_class = FlashCardSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
+    def delete(self, request, *args, **kwargs):
         user = self.request.user
-        return FlashCard.objects.filter(author=user)
+        card_id = kwargs.get("id")
+
+        card_to_delete = FlashCard.objects.filter(author=user, id=card_id)
+        if not card_to_delete.exists():
+            return Response({"detail": f"No card matching the id: {card_id}"})
+
+        res = card_to_delete.delete()
+
+        return Response({"detail": res}, status=status.HTTP_204_NO_CONTENT)
+
+class DeleteDeck(generics.DestroyAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, *args, **kwargs):
+        user = self.request.user
+        deck = kwargs.get("deck")
+
+        cards_to_delete = FlashCard.objects.filter(author=user, deck=deck)
+
+        if not cards_to_delete.exists():
+            return Response({"detail": "No cards in this deck"}, status=status.HTTP_404_NOT_FOUND)
+
+        amount_deleted, _ = cards_to_delete.delete()
+
+        return Response({"detail": f"deleted '{deck}' containing {amount_deleted}x cards."}, status=status.HTTP_200_OK)
 
 
 class ListUniqueDecks(generics.GenericAPIView):

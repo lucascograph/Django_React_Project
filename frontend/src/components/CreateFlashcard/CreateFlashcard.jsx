@@ -5,7 +5,7 @@ import { Button } from '../Button/Button'
 
 
 
-export const CreateFlashcard = ({ deckList, currentDeck, currentCardId, currentCardFront, currentCardBack, onSubmit, onCancel, titleText, btnText }) => {
+export const CreateFlashcard = ({ deckList, currentDeck, currentCardId, currentCardFront, currentCardBack, onSubmit, onCancel, titleText}) => {
     const [ frontText, setFrontText ] = useState("")
     const [ backText, setBackText ] = useState("")
     const [ newDeckInput, setNewDeckInput ] = useState("")
@@ -121,8 +121,8 @@ export const CreateFlashcard = ({ deckList, currentDeck, currentCardId, currentC
                 </div>
                         )}
                 <div className='buttons'>
-                    <Button onClick={titleText === "Edit" ? handleEdit : handleCreate} text={btnText} />
-                    <Button onClick={onCancel} text="Cancel" />
+                    <Button onClick={titleText === "Edit" ? handleEdit : handleCreate}>{titleText === "Edit" ? "Edit" : "Create"}</Button>
+                    <Button onClick={onCancel}>Cancel</Button>
                 </div>
             </div>
     );
