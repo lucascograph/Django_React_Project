@@ -1,11 +1,22 @@
-import {useEffect, useState } from 'react'
+import {useEffect, useState, useContext } from 'react'
+import { FlashcardContext } from '../../contexts/FlashcardContext'
 import api from '../../Api'
-import './CreateFlashCard.css'
+import './CreateEditFlashcard.css'
 import { Button } from '../Button/Button'
 
 
 
-export const CreateFlashcard = ({ deckList, currentDeck, currentCardId, currentCardFront, currentCardBack, onSubmit, onCancel, titleText}) => {
+export const CreateEditFlashcard = ({ onSubmit })=> {
+
+    const {
+        isEditingFlashcard,
+        deckList,
+        currentDeck,
+        currentCard,
+        setIsCreatingFlashcard,
+        setIsEditingFlashcard,
+    } = useContext(FlashcardContext)
+
     const [ frontText, setFrontText ] = useState("")
     const [ backText, setBackText ] = useState("")
     const [ newDeckInput, setNewDeckInput ] = useState("")
@@ -13,8 +24,10 @@ export const CreateFlashcard = ({ deckList, currentDeck, currentCardId, currentC
     const [ dropdownTitle, setDropdownTitle] = useState("")
 
     useEffect(() => {
-        setFrontText(currentCardFront)
-        setBackText(currentCardBack)
+        if (isEditingFlashcard) {
+            setFrontText(currentCard["front"])
+            setBackText(currentCard["back"])
+        }
     }, [])
 
     const handleDropdownChange = (event) => {
@@ -29,53 +42,60 @@ export const CreateFlashcard = ({ deckList, currentDeck, currentCardId, currentC
         const input_text = event.target.value
         setNewDeckInput(input_text)
         setSelectedDeck(input_text)
-        setDropdownTitle("")
-        console.log(input_text)
     }
 
     const handleCreate = async (e) => {
         e.preventDefault()
-        let new_card = null
+        let createdCard = null
 
         console.log(`Creating: ${frontText}, ${backText}, ${selectedDeck}`)
         try {
                 const response = await api.post(`/api/flashcards/`, {
                     front: frontText,
                     back: backText,
-                    deck: selectedDeck,
+                    deck: selectedDeck ? selectedDeck : currentDeck,
                 });
-                new_card = response.data
-                console.log(response)
+
+                createdCard = response.data
+
         } catch (error) {
             console.log(error)
             console.error('Error details:', error.response ? error.response.data : error.message);
         }
 
-        onSubmit(new_card)
+        onSubmit(createdCard)
+
     }
 
     const handleEdit = async (e) => {
         e.preventDefault()
-        let edited_card = null
-        try {
-            const response = await api.put(`/api/flashcards/edit/${currentDeck}/${currentCardId}/`, {
-                front: frontText,
-                back: backText,
-                deck: currentDeck
-            })
 
-            edited_card = response.data
+        let editedCard = currentCard
+
+        editedCard["front"] = frontText
+        editedCard["back"] = backText
+
+        try {
+            const response = await api.put(`/api/flashcards/edit/${currentDeck}/${currentCard["id"]}/`, editedCard)
+
+            console.log(response.data)
+
         } catch (error) {
             console.error('Error details:', error.response ? error.response.data : error.message);
         }
 
-        onSubmit(edited_card)
+        setIsEditingFlashcard(false)
+    }
+
+    const handleCancelClick = () => {
+        setIsCreatingFlashcard(false)
+        setIsEditingFlashcard(false)
     }
 
     return (
             <div className='card'>
                 <div className='title'>
-                    <h2>{titleText} Flashcard:</h2>
+                    <h2>{isEditingFlashcard ? "Edit" : "New"} Flashcard:</h2>
                 </div>
                 <div className='card-inputs'>
                     <div>
@@ -99,12 +119,12 @@ export const CreateFlashcard = ({ deckList, currentDeck, currentCardId, currentC
                         required
                     />
                 </div>
-                {titleText === "Edit" ? (
+                {isEditingFlashcard ? (
                     <div className='deck-input'>Deck: {currentDeck}</div>
                 ) : (
                 <div className='deck-input'>
                     <select className='dropdown' value={dropdownTitle} onChange={handleDropdownChange}>
-                        <option value="" disabled>Select a deck</option>
+                        <option value="" disabled>{selectedDeck ? selectedDeck : currentDeck}</option>
                         {deckList.map((deck, index) => (
                                 <option key={index} value={deck}>
                                     {deck}
@@ -121,8 +141,10 @@ export const CreateFlashcard = ({ deckList, currentDeck, currentCardId, currentC
                 </div>
                         )}
                 <div className='buttons'>
-                    <Button onClick={titleText === "Edit" ? handleEdit : handleCreate}>{titleText === "Edit" ? "Edit" : "Create"}</Button>
-                    <Button onClick={onCancel}>Cancel</Button>
+                    <Button onClick={isEditingFlashcard ? handleEdit : handleCreate}>
+                        {isEditingFlashcard ? "Edit" : "Create"}
+                    </Button>
+                    <Button onClick={handleCancelClick}>Cancel</Button>
                 </div>
             </div>
     );

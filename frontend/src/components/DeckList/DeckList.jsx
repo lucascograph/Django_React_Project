@@ -1,15 +1,27 @@
+import { useState, useContext } from "react";
+import { FlashcardContext } from "../../contexts/FlashcardContext";
 import "./DeckList.css"
 import { IoTrashOutline } from "react-icons/io5";
-import { useEffect, useState } from "react";
 import { Button } from "../Button/Button";
 import api from "../../Api";
 
 
-function DeckList({ onClick, onDelete, decks, currentDeck }) {
+function DeckList() {
+
+    const {
+        deckList,
+        currentDeck,
+        setCurrentDeck,
+        setRefreshDecks
+    } = useContext(FlashcardContext)
 
     const [ showPopup, setShowPopup ] = useState(false)
     const [ hoveredDeck, setHoveredDeck ] = useState(null)
     const [ deckToDelete, setDeckToDelete ] = useState(null)
+
+    const handleSelectDeck = (deck) => {
+        setCurrentDeck(deck)
+    }
 
     const handleDeleteIconClick = () => {
         setShowPopup(true)
@@ -28,16 +40,18 @@ function DeckList({ onClick, onDelete, decks, currentDeck }) {
             console.error('Error details:', error.response ? error.response.data : error.message);
         }
 
-        onDelete(prev => !prev)
+        setRefreshDecks(prev => !prev)
     }
 
     const handleCancel = () => {
         setShowPopup(false)
     }
 
-    const renderList = decks.map((deck, index) => {
+    const renderList = deckList.map((deck, index) => {
         return (
-            <li key={index} onClick={() => onClick(deck)}
+            <li
+                key={index}
+                onClick={() => handleSelectDeck(deck)}
                 onMouseEnter={() => setHoveredDeck(deck)}
                 onMouseLeave={() => setHoveredDeck(null)}
             >

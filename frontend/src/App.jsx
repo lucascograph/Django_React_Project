@@ -3,6 +3,7 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Profile from "./Pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { FlashcardProvider } from "./contexts/FlashcardContext";
 import Keigo from "./Pages/Keigo";
 import Bunpo from "./Pages/Bunpo";
 import Kanji from "./Pages/Kanji";
@@ -33,7 +34,9 @@ function App() {
           }/>
           <Route path="/Flashcard" element={
             <ProtectedRoute>
-              <Flashcard />
+              <FlashcardProvider>
+                <Flashcard />
+              </FlashcardProvider>
             </ProtectedRoute>
           }/>
           <Route path="/kanji" element={

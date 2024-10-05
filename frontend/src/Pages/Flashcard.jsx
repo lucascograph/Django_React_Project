@@ -1,54 +1,30 @@
-import { useState, useEffect } from 'react'
-import api from '../Api'
+import { useContext } from 'react'
+import { FlashcardContext } from '../contexts/FlashcardContext'
 import { Navbar } from '../components/Navbar/Navbar'
 import { DisplayFlashcard } from '../components/DisplayFlashcard/DisplayFlashcard'
-import { CreateFlashcard } from '../components/CreateFlashCard/CreateFlashCard'
+import { CreateEditFlashcard } from '../components/CreateEditFlashcard/CreateEditFlashcard'
 import { Button } from '../components/Button/Button'
 import DeckList from '../components/DeckList/DeckList'
 import "./Flashcard.css"
 
 export const Flashcard = () => {
 
-  const [ isCreatingFlashcard, setIsCreatingFlashcard ] = useState(false)
-  const [ isEditingFlashcard, setIsEditingFlashcard ] = useState(false)
-  const [ deckList, setDeckList ] = useState([])
-  const [ currentDeck, setCurrentDeck ] = useState("")
-  const [ cardList, setCardList ] = useState([])
-  const [ isShowingFront, setIsShowingFront ] = useState(true)
-  const [ refreshDecks, setRefreshDecks ] = useState(false)
-  const [ currentCard, setCurrentCard ] = useState(null)
-  const [ clearedCards, setClearedCards ] = useState([])
-  const [ refreshPage, setRefreshPage ] = useState(false)
-
-  useEffect(() => {
-      const fetchDecks = async () => {
-          const response = await api.get("api/flashcards/decks/")
-          setDeckList(response.data) // get a list from api of unique decks
-
-          if (response.data.length > 0) {
-              setCurrentDeck(response.data[0]); // set the first deck as the current deck
-          } else {
-              setCurrentDeck('');
-          }
-      }
-
-      fetchDecks()
-
-    }, [refreshDecks])
-
-  useEffect(() => {
-      const fetchCards = async () => {
-          if (currentDeck.length > 0) {
-              const response = await api.get(`api/flashcards/${currentDeck}`)
-              setCardList(response.data)
-              const randomIndex = Math.floor(Math.random() * response.data.length);
-              setCurrentCard(response.data[randomIndex])
-          }
-      }
-
-      fetchCards()
-      setClearedCards([])
-  }, [currentDeck])
+  const {
+    isCreatingFlashcard,
+    isEditingFlashcard,
+    deckList,
+    currentDeck,
+    cardList,
+    currentCard,
+    clearedCards,
+    setIsCreatingFlashcard,
+    setIsEditingFlashcard,
+    setCardList,
+    setIsShowingFront,
+    setCurrentCard,
+    setClearedCards,
+    setRefreshDecks,
+  } = useContext(FlashcardContext);
 
   const handleAddCardClick = () => {
     setIsCreatingFlashcard(true)
@@ -58,39 +34,23 @@ export const Flashcard = () => {
     if (currentCard !== null) {
       setIsEditingFlashcard(true)
     }
+    console.log(currentCard)
 }
 
-  const handleCancelClick = () => {
+  const handleCreateSubmit = (createdCard) => {
+    setRefreshDecks(prev => !prev)
+    setCardList([ ...cardList, createdCard])
     setIsCreatingFlashcard(false)
-    setIsEditingFlashcard(false)
+    setCurrentCard(createdCard)
+    console.log(cardList)
+    console.log(clearedCards)
   }
 
-  const handleCreateClick = (new_card) => {
-    setRefreshDecks((prev => !prev))
-    setCardList((cardList) => [
-      [...cardList, new_card]
-    ])
-    setIsCreatingFlashcard(false)
-    setCurrentCard(new_card)
-  }
-
-  const handleEditClick = (edited_card) => {
-    setRefreshDecks((prev => !prev))
-    setIsCreatingFlashcard(false)
-    setCurrentCard(edited_card)
+  const handleEditSubmit = (editedCard) => {
+    setCurrentCard(editedCard)
     setIsEditingFlashcard(false)
     console.log("current deck: ",currentDeck)
     console.log("cardlist: ", cardList)
-  }
-
-  const handleDeckSelect = (deck) => {
-    setCurrentDeck(deck);
-    setIsShowingFront(true)
-  }
-
-  const handleClickOnCard = () => {
-    setIsShowingFront((prev) => !prev)
-    console.log(currentCard)
   }
 
   const handleNextClick = () => {
@@ -114,8 +74,9 @@ export const Flashcard = () => {
 
   const handleResetDeckClick = () => {
     setCardList(clearedCards)
-    setCurrentCard(clearedCards[Math.floor(Math.random() * clearedCards.length)])
-    setRefreshPage(prev => !prev)
+    setClearedCards([])
+    let randomIndex = (Math.floor(Math.random() * clearedCards.length))
+    setCurrentCard(clearedCards[randomIndex])
   }
 
   return (
@@ -124,23 +85,15 @@ export const Flashcard = () => {
         {isCreatingFlashcard || isEditingFlashcard ?
           (
             <div className='create-content'>
-              <CreateFlashcard
-              deckList={deckList}
-              currentDeck={currentDeck}
-              currentCardId={currentCard ? currentCard["id"] : null}
-              currentCardFront={isEditingFlashcard ? currentCard["front"] : ""}
-              currentCardBack={isEditingFlashcard ? currentCard["back"] : ""}
-              onSubmit={isCreatingFlashcard ? handleCreateClick : handleEditClick}
-              onCancel={handleCancelClick}
-              titleText={isCreatingFlashcard ? "New" : "Edit"}
-              btnText={isCreatingFlashcard ? "Create" : "Edit"}
+              <CreateEditFlashcard
+                onSubmit={isCreatingFlashcard ? handleCreateSubmit : handleEditSubmit}
               />
             </div>
           ) : (
             <div className="content">
             <div className='left-side'>
               <div className='deck-list'>
-                <DeckList onClick={handleDeckSelect} onDelete={setRefreshDecks} decks={deckList} currentDeck={currentDeck} />
+                <DeckList  />
               </div>
               <div className='left-btn-box'>
               <Button onClick={handleAddCardClick}>New Card</Button>
@@ -149,19 +102,12 @@ export const Flashcard = () => {
               </div>
             </div>
             <div className='right-side'>
-            {cardList.length > 0 ?
-              (
+            {cardList.length > 0 ? (
                 <>
                 {currentCard ? (
                   <>
-                    <div className='card-box' onClick={handleClickOnCard}>
-                        <DisplayFlashcard
-                          id={currentCard["id"]}
-                          deck={currentDeck}
-                          text={isShowingFront ? currentCard["front"] : currentCard["back"]}
-                          date={currentCard.date_created}
-                          onDelete={setRefreshDecks}
-                        />
+                    <div className='card-box'>
+                        <DisplayFlashcard />
                     </div>
                     <div className='right-btn-box'>
                       <Button onClick={handleNextClick}>Next</Button>
