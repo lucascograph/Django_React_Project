@@ -12,6 +12,7 @@ function DeckList() {
         deckList,
         currentDeck,
         setCurrentDeck,
+        setExportCode,
         setRefreshDecks
     } = useContext(FlashcardContext)
 
@@ -21,6 +22,7 @@ function DeckList() {
 
     const handleSelectDeck = (deck) => {
         setCurrentDeck(deck)
+        setExportCode(deck.code)
     }
 
     const handleDeleteIconClick = () => {
@@ -31,9 +33,7 @@ function DeckList() {
     const handleDelete = async () => {
         setShowPopup(false)
         try {
-            const response = await api.delete(`/api/flashcards/delete/deck/${deckToDelete}/`, {
-                deck: deckToDelete
-            })
+            const response = await api.delete(`/api/deck/delete/${deckToDelete.id}/`)
 
             console.log(response.data)
         } catch (error) {
@@ -59,7 +59,7 @@ function DeckList() {
                     <IoTrashOutline onClick={handleDeleteIconClick} style={{cursor: 'pointer'}} />
                 </div>
                 <span style={{color : currentDeck === deck ? '#ffffff' : '#2e2e2e', backgroundColor: currentDeck === deck ? '#2e2e2e' : 'transparent'}}>
-                    {deck}
+                    {deck.name}
                 </span>
             </li>
         )
@@ -75,7 +75,7 @@ function DeckList() {
         </div>
             {showPopup && currentDeck && (
                 <div className="popup">
-                    <p>Are you sure you want to delete deck: '{currentDeck}' ?</p>
+                    <p>Are you sure you want to delete deck: '{currentDeck.name}' ?</p>
                     <div className="popup-buttons">
                         <Button onClick={handleDelete}>Yes</Button>
                         <Button onClick={handleCancel}>No</Button>

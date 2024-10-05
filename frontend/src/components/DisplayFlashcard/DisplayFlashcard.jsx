@@ -4,6 +4,7 @@ import "./DisplayFlashcard.css";
 import api from "../../Api";
 import { IoTrashOutline } from "react-icons/io5";
 import { Button } from "../Button/Button";
+import DeckList from "../DeckList/DeckList";
 
 
 export const DisplayFlashcard = () => {
@@ -11,6 +12,7 @@ export const DisplayFlashcard = () => {
     const {
         currentCard,
         isShowingFront,
+        exportCode,
         setIsShowingFront,
         setRefreshDecks,
      } =  useContext(FlashcardContext)

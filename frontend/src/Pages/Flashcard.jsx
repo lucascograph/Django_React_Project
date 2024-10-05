@@ -1,8 +1,9 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { FlashcardContext } from '../contexts/FlashcardContext'
 import { Navbar } from '../components/Navbar/Navbar'
 import { DisplayFlashcard } from '../components/DisplayFlashcard/DisplayFlashcard'
 import { CreateEditFlashcard } from '../components/CreateEditFlashcard/CreateEditFlashcard'
+import { ExportCode } from '../components/PopupWindow/ExportCode'
 import { Button } from '../components/Button/Button'
 import DeckList from '../components/DeckList/DeckList'
 import "./Flashcard.css"
@@ -17,14 +18,18 @@ export const Flashcard = () => {
     cardList,
     currentCard,
     clearedCards,
+    exportCode,
     setIsCreatingFlashcard,
     setIsEditingFlashcard,
     setCardList,
     setIsShowingFront,
     setCurrentCard,
+    setCurrentDeck,
     setClearedCards,
     setRefreshDecks,
   } = useContext(FlashcardContext);
+
+  const [ showExportCode, setShowExportCode ] = useState(false)
 
   const handleAddCardClick = () => {
     setIsCreatingFlashcard(true)
@@ -33,17 +38,24 @@ export const Flashcard = () => {
   const handleEditCardClick = () => {
     if (currentCard !== null) {
       setIsEditingFlashcard(true)
+      console.log(currentCard)
+    } else {
+      console.log("No card to edit...")
     }
-    console.log(currentCard)
-}
+  }
 
-  const handleCreateSubmit = (createdCard) => {
+  const handleExportClick = () => {
+    console.log(currentDeck)
+    setShowExportCode(true)
+  }
+
+  const handleCreateSubmit = (createdCard, deck) => {
     setRefreshDecks(prev => !prev)
-    setCardList([ ...cardList, createdCard])
     setIsCreatingFlashcard(false)
+    setIsShowingFront(true)
+    setCurrentDeck(deck)
     setCurrentCard(createdCard)
-    console.log(cardList)
-    console.log(clearedCards)
+    setCardList((prevCardList) => {return [...prevCardList, createdCard]})
   }
 
   const handleEditSubmit = (editedCard) => {
@@ -82,6 +94,7 @@ export const Flashcard = () => {
   return (
     <div className='container'>
       <Navbar />
+      {showExportCode && (<ExportCode text={exportCode} />)}
         {isCreatingFlashcard || isEditingFlashcard ?
           (
             <div className='create-content'>
@@ -98,7 +111,7 @@ export const Flashcard = () => {
               <div className='left-btn-box'>
               <Button onClick={handleAddCardClick}>New Card</Button>
               <Button onClick={handleEditCardClick}>Edit Card</Button>
-              <Button onClick={handleAddCardClick}>Export Deck</Button>
+              <Button onClick={handleExportClick}>Export Deck</Button>
               </div>
             </div>
             <div className='right-side'>

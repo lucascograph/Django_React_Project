@@ -21,7 +21,7 @@ export const CreateEditFlashcard = ({ onSubmit })=> {
     const [ backText, setBackText ] = useState("")
     const [ newDeckInput, setNewDeckInput ] = useState("")
     const [ selectedDeck, setSelectedDeck ] = useState("")
-    const [ dropdownTitle, setDropdownTitle] = useState("")
+
 
     useEffect(() => {
         if (isEditingFlashcard) {
@@ -34,26 +34,48 @@ export const CreateEditFlashcard = ({ onSubmit })=> {
         const selection = event.target.value
         setSelectedDeck(selection)
         setNewDeckInput("")
-        setDropdownTitle(selection)
-        console.log(selection)
+        console.log("set new selected deck:", selection)
     }
 
     const handleDeckInput = (event) => {
         const input_text = event.target.value
         setNewDeckInput(input_text)
         setSelectedDeck(input_text)
+        console.log("new selected deck: ", input_text)
+        console.log("dropdown: ", input_text)
     }
 
     const handleCreate = async (e) => {
         e.preventDefault()
         let createdCard = null
+        let createdDeck = null
 
-        console.log(`Creating: ${frontText}, ${backText}, ${selectedDeck}`)
+        if (!deckList.some((deck) => deck.name === selectedDeck)){
+            try {
+                const response = await api.post(`/api/deck/create/`, {
+                    "name": selectedDeck
+                })
+
+                createdDeck = response.data
+                console.log(createdDeck)
+                console.log(`Successfully created new deck: ' ${createdDeck.name} '`)
+
+            } catch(error) {
+                console.log(error)
+                console.error('Error details:', error.response ? error.response.data : error.message);
+            }
+        }
+
+
+        const deck = createdDeck ? createdDeck : deckList.find((deck) => deck.name === selectedDeck)
+
+        console.log(`Creating: ${frontText}, ${backText}, to deck: ' ${deck.name} '`)
+
         try {
-                const response = await api.post(`/api/flashcards/`, {
+                const response = await api.post(`/api/flashcard/create/`, {
                     front: frontText,
                     back: backText,
-                    deck: selectedDeck ? selectedDeck : currentDeck,
+                    deck: deck.id
                 });
 
                 createdCard = response.data
@@ -63,7 +85,7 @@ export const CreateEditFlashcard = ({ onSubmit })=> {
             console.error('Error details:', error.response ? error.response.data : error.message);
         }
 
-        onSubmit(createdCard)
+        onSubmit(createdCard, deck)
 
     }
 
@@ -76,7 +98,7 @@ export const CreateEditFlashcard = ({ onSubmit })=> {
         editedCard["back"] = backText
 
         try {
-            const response = await api.put(`/api/flashcards/edit/${currentDeck}/${currentCard["id"]}/`, editedCard)
+            const response = await api.put(`/api/flashcard/edit/${currentCard.id}/`, editedCard)
 
             console.log(response.data)
 
@@ -120,14 +142,14 @@ export const CreateEditFlashcard = ({ onSubmit })=> {
                     />
                 </div>
                 {isEditingFlashcard ? (
-                    <div className='deck-input'>Deck: {currentDeck}</div>
+                    <div className='deck-input'>Deck: {currentDeck.name}</div>
                 ) : (
                 <div className='deck-input'>
-                    <select className='dropdown' value={dropdownTitle} onChange={handleDropdownChange}>
-                        <option value="" disabled>{selectedDeck ? selectedDeck : currentDeck}</option>
+                    <select className='dropdown' value={selectedDeck} onChange={handleDropdownChange}>
+                        <option value="" disabled>{selectedDeck || "Select deck"}</option>
                         {deckList.map((deck, index) => (
-                                <option key={index} value={deck}>
-                                    {deck}
+                                <option key={index} value={deck.name}>
+                                    {deck.name}
                                 </option>)
                             )}
                     </select>

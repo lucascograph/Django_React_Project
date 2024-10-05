@@ -1,47 +1,57 @@
-import { createContext, useState, useEffect } from 'react';
-import api from '../Api';
+import { createContext, useState, useEffect } from 'react'
+import api from '../Api'
 
-export const FlashcardContext = createContext();
+export const FlashcardContext = createContext()
 
 export const FlashcardProvider = ({ children }) => {
-  const [isCreatingFlashcard, setIsCreatingFlashcard] = useState(false);
-  const [isEditingFlashcard, setIsEditingFlashcard] = useState(false);
-  const [deckList, setDeckList] = useState([]);
-  const [currentDeck, setCurrentDeck] = useState("");
-  const [cardList, setCardList] = useState([]);
-  const [isShowingFront, setIsShowingFront] = useState(true);
-  const [currentCard, setCurrentCard] = useState(null);
-  const [clearedCards, setClearedCards] = useState([]);
-  const [refreshDecks, setRefreshDecks] = useState(false);
+    const [ isCreatingFlashcard, setIsCreatingFlashcard ] = useState(false)
+    const [ isEditingFlashcard, setIsEditingFlashcard ] = useState(false)
+    const [ deckList, setDeckList ] = useState([])
+    const [ currentDeck, setCurrentDeck ] = useState(null)
+    const [ cardList, setCardList ] = useState([])
+    const [ isShowingFront, setIsShowingFront ] = useState(true)
+    const [ currentCard, setCurrentCard ] = useState(null)
+    const [ clearedCards, setClearedCards ] = useState([])
+    const [ refreshDecks, setRefreshDecks ] = useState(false)
+    const [ exportCode, setExportCode ] = useState("")
 
-  useEffect(() => {
-    const fetchDecks = async () => {
-      const response = await api.get("api/flashcards/decks/");
-      setDeckList(response.data);
+    useEffect(() => {
+        const fetchDecks = async () => {
+            try {
+                const response = await api.get("api/deck/list/")
 
-      if (response.data.length > 0) {
-        setCurrentDeck(response.data[0]);
-      } else {
-        setCurrentDeck('');
-      }
-    };
+                if (response.data) {
+                    setDeckList(response.data)
+                    if (!currentDeck) {
+                        setCurrentDeck(response.data[0])
+                    }
+                    setExportCode(currentDeck || response.data[0].code)
 
-    fetchDecks();
-  }, [refreshDecks]);
+                } else {
+                    setCurrentDeck(null)
+                }
+            } catch (error) {
+                console.error("Error fetching decks:", error)
+            }
+        }
 
-  useEffect(() => {
-    const fetchCards = async () => {
-      if (currentDeck.length > 0) {
-        const response = await api.get(`api/flashcards/${currentDeck}`);
-        setCardList(response.data);
-        const randomIndex = Math.floor(Math.random() * response.data.length);
-        setCurrentCard(response.data[randomIndex]);
-      }
-    };
+        fetchDecks()
 
-    fetchCards();
-    setClearedCards([]);
-  }, [currentDeck]);
+    }, [refreshDecks])
+
+    useEffect(() => {
+        const fetchCards = async () => {
+            if (currentDeck) {
+                const response = await api.get(`api/flashcard/list/${currentDeck["id"]}/`)
+                setCardList(response.data)
+                const randomIndex = Math.floor(Math.random() * response.data.length)
+                setCurrentCard(response.data[randomIndex])
+            }
+    }
+
+    fetchCards()
+    setClearedCards([])
+  }, [currentDeck])
 
   const value = {
     isCreatingFlashcard,
@@ -52,6 +62,7 @@ export const FlashcardProvider = ({ children }) => {
     isShowingFront,
     currentCard,
     clearedCards,
+    exportCode,
     setIsCreatingFlashcard,
     setIsEditingFlashcard,
     setDeckList,
@@ -61,11 +72,12 @@ export const FlashcardProvider = ({ children }) => {
     setCurrentCard,
     setClearedCards,
     setRefreshDecks,
-  };
+    setExportCode,
+  }
 
   return (
     <FlashcardContext.Provider value={value}>
       {children}
     </FlashcardContext.Provider>
-  );
-};
+  )
+}
