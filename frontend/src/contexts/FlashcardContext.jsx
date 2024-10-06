@@ -19,16 +19,25 @@ export const FlashcardProvider = ({ children }) => {
         const fetchDecks = async () => {
             try {
                 const response = await api.get("api/deck/list/")
+                if (response.data.length >= 1) {
 
-                if (response.data) {
                     setDeckList(response.data)
+                    console.log("deck list:", response.data)
+                    console.log("current deck:", currentDeck)
+
                     if (!currentDeck) {
                         setCurrentDeck(response.data[0])
+                        console.log("current deck: ", response.data[0])
+                        console.log("export: ", response.data[0]["code"])
+                    }else {
+                        console.log("current deck: ", currentDeck)
+                        console.log("export: ", currentDeck.code)
                     }
-                    setExportCode(currentDeck || response.data[0].code)
+                    setExportCode(currentDeck ? currentDeck.code : response.data[0]["code"])
 
                 } else {
                     setCurrentDeck(null)
+                    setDeckList([])
                 }
             } catch (error) {
                 console.error("Error fetching decks:", error)
@@ -41,11 +50,15 @@ export const FlashcardProvider = ({ children }) => {
 
     useEffect(() => {
         const fetchCards = async () => {
-            if (currentDeck) {
-                const response = await api.get(`api/flashcard/list/${currentDeck["id"]}/`)
-                setCardList(response.data)
-                const randomIndex = Math.floor(Math.random() * response.data.length)
-                setCurrentCard(response.data[randomIndex])
+            try {
+                if (currentDeck) {
+                    const response = await api.get(`api/flashcard/list/${currentDeck.id}/`)
+                    setCardList(response.data)
+                    const randomIndex = Math.floor(Math.random() * response.data.length)
+                    setCurrentCard(response.data[randomIndex])
+                }
+            } catch (error) {
+                console.log(error)
             }
     }
 

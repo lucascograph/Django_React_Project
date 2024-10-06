@@ -11,8 +11,11 @@ function DeckList() {
     const {
         deckList,
         currentDeck,
+        cardList,
+        setCurrentCard,
         setCurrentDeck,
         setExportCode,
+        setIsShowingFront,
         setRefreshDecks
     } = useContext(FlashcardContext)
 
@@ -23,6 +26,8 @@ function DeckList() {
     const handleSelectDeck = (deck) => {
         setCurrentDeck(deck)
         setExportCode(deck.code)
+        setIsShowingFront(true)
+        console.log("hello: ", cardList)
     }
 
     const handleDeleteIconClick = () => {
@@ -33,13 +38,14 @@ function DeckList() {
     const handleDelete = async () => {
         setShowPopup(false)
         try {
-            const response = await api.delete(`/api/deck/delete/${deckToDelete.id}/`)
+            await api.delete(`/api/deck/delete/${deckToDelete.id}/`)
 
-            console.log(response.data)
         } catch (error) {
             console.error('Error details:', error.response ? error.response.data : error.message);
         }
 
+        setCurrentCard(null)
+        setCurrentDeck(null)
         setRefreshDecks(prev => !prev)
     }
 

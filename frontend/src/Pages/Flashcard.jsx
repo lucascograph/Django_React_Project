@@ -45,27 +45,11 @@ export const Flashcard = () => {
   }
 
   const handleExportClick = () => {
-    console.log(currentDeck)
-    setShowExportCode(true)
-  }
-
-  const handleCreateSubmit = (createdCard, deck) => {
-    setRefreshDecks(prev => !prev)
-    setIsCreatingFlashcard(false)
-    setIsShowingFront(true)
-    setCurrentDeck(deck)
-    setCurrentCard(createdCard)
-    setCardList((prevCardList) => {return [...prevCardList, createdCard]})
-  }
-
-  const handleEditSubmit = (editedCard) => {
-    setCurrentCard(editedCard)
-    setIsEditingFlashcard(false)
-    console.log("current deck: ",currentDeck)
-    console.log("cardlist: ", cardList)
+    setShowExportCode(prev => !prev)
   }
 
   const handleNextClick = () => {
+    console.log("cardlist: ", cardList)
 
     setIsShowingFront(true)
 
@@ -94,13 +78,11 @@ export const Flashcard = () => {
   return (
     <div className='container'>
       <Navbar />
-      {showExportCode && (<ExportCode text={exportCode} />)}
+      {showExportCode && (<ExportCode onButtonClick={setShowExportCode}/>)}
         {isCreatingFlashcard || isEditingFlashcard ?
           (
             <div className='create-content'>
-              <CreateEditFlashcard
-                onSubmit={isCreatingFlashcard ? handleCreateSubmit : handleEditSubmit}
-              />
+              <CreateEditFlashcard />
             </div>
           ) : (
             <div className="content">
@@ -111,7 +93,7 @@ export const Flashcard = () => {
               <div className='left-btn-box'>
               <Button onClick={handleAddCardClick}>New Card</Button>
               <Button onClick={handleEditCardClick}>Edit Card</Button>
-              <Button onClick={handleExportClick}>Export Deck</Button>
+              <Button onClick={handleExportClick}>Export/import</Button>
               </div>
             </div>
             <div className='right-side'>

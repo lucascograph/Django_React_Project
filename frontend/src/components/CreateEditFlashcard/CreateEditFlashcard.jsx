@@ -6,13 +6,16 @@ import { Button } from '../Button/Button'
 
 
 
-export const CreateEditFlashcard = ({ onSubmit })=> {
+export const CreateEditFlashcard = ()=> {
 
     const {
         isEditingFlashcard,
         deckList,
         currentDeck,
         currentCard,
+        setCurrentCard,
+        setCurrentDeck,
+        setRefreshDecks,
         setIsCreatingFlashcard,
         setIsEditingFlashcard,
     } = useContext(FlashcardContext)
@@ -34,15 +37,12 @@ export const CreateEditFlashcard = ({ onSubmit })=> {
         const selection = event.target.value
         setSelectedDeck(selection)
         setNewDeckInput("")
-        console.log("set new selected deck:", selection)
     }
 
     const handleDeckInput = (event) => {
         const input_text = event.target.value
         setNewDeckInput(input_text)
         setSelectedDeck(input_text)
-        console.log("new selected deck: ", input_text)
-        console.log("dropdown: ", input_text)
     }
 
     const handleCreate = async (e) => {
@@ -69,7 +69,7 @@ export const CreateEditFlashcard = ({ onSubmit })=> {
 
         const deck = createdDeck ? createdDeck : deckList.find((deck) => deck.name === selectedDeck)
 
-        console.log(`Creating: ${frontText}, ${backText}, to deck: ' ${deck.name} '`)
+        console.log(`Created card: ${frontText} <==> ${backText}, to deck: ' ${deck.name} '`)
 
         try {
                 const response = await api.post(`/api/flashcard/create/`, {
@@ -85,7 +85,12 @@ export const CreateEditFlashcard = ({ onSubmit })=> {
             console.error('Error details:', error.response ? error.response.data : error.message);
         }
 
-        onSubmit(createdCard, deck)
+        setCurrentCard(createdCard)
+        setCurrentDeck(deck)
+        setIsCreatingFlashcard(false)
+        setRefreshDecks(prev => !prev)
+        console.log("created/current: ", createdCard)
+        console.log(deck)
 
     }
 
@@ -100,7 +105,7 @@ export const CreateEditFlashcard = ({ onSubmit })=> {
         try {
             const response = await api.put(`/api/flashcard/edit/${currentCard.id}/`, editedCard)
 
-            console.log(response.data)
+            // console.log(response.data)
 
         } catch (error) {
             console.error('Error details:', error.response ? error.response.data : error.message);

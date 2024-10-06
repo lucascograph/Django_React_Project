@@ -1,18 +1,16 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { FlashcardContext } from "../../contexts/FlashcardContext";
 import "./DisplayFlashcard.css";
 import api from "../../Api";
 import { IoTrashOutline } from "react-icons/io5";
 import { Button } from "../Button/Button";
-import DeckList from "../DeckList/DeckList";
-
 
 export const DisplayFlashcard = () => {
 
     const {
         currentCard,
         isShowingFront,
-        exportCode,
+        setCurrentCard,
         setIsShowingFront,
         setRefreshDecks,
      } =  useContext(FlashcardContext)
@@ -30,10 +28,7 @@ export const DisplayFlashcard = () => {
     const handleDelete = async () => {
 
         try {
-            const response = await api.delete(`/api/flashcards/delete/${currentCard["id"]}/`,{
-                id: currentCard["id"],
-                deck: currentCard["deck"]
-            })
+            const response = await api.delete(`/api/flashcard/delete/${currentCard.id}/`)
 
             console.log(response.data)
 
@@ -41,6 +36,7 @@ export const DisplayFlashcard = () => {
             console.error('Error details:', error.response ? error.response.data : error.message);
         }
 
+        setCurrentCard(null)
         setRefreshDecks(prev => !prev)
         setShowPopup(false)
     }

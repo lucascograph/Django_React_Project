@@ -57,18 +57,8 @@ class UpdateFlashcard(generics.UpdateAPIView):
 
 class DeleteFlashcard(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated]
-
-    def delete(self, request, *args, **kwargs):
-        user = self.request.user
-        card_id = kwargs.get("id")
-
-        card_to_delete = Flashcard.objects.filter(author=user, id=card_id)
-        if not card_to_delete.exists():
-            return Response({"detail": f"No card matching the id: {card_id}"})
-
-        res = card_to_delete.delete()
-
-        return Response({"detail": res}, status=status.HTTP_204_NO_CONTENT)
+    serializer_class = FlashcardSerializer
+    queryset = Flashcard.objects.all()
 
 
 class ListDecks(generics.ListAPIView):
@@ -80,18 +70,12 @@ class ListDecks(generics.ListAPIView):
 
 
 class ListFlashcards(generics.ListAPIView):
-    serializer_class = FlashcardSerializer
     permission_classes = [IsAuthenticated]
+    serializer_class = FlashcardSerializer
 
-    def get(self, request, *args, **kwargs):
-        deck_id = kwargs.get("deck_id")
-
-        flashcards = Flashcard.objects.filter(deck_id=deck_id)
-
-        serializer = self.get_serializer(flashcards, many=True)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
+    def get_queryset(self):
+        deck = self.kwargs.get("deck_id")
+        return Flashcard.objects.filter(author=self.request.user, deck=deck)
 
 class RetrieveDeckByCode(generics.RetrieveAPIView):
     permission_classes = [AllowAny]
@@ -108,19 +92,22 @@ class DuplicateDeck(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         unique_code = request.data.get('code')
         try:
-            original_deck = Deck.objects.get(unique_code=unique_code)
+            original_deck = Deck.objects.get(code=unique_code)
 
             new_deck = Deck.objects.create(name=f"{original_deck.name} (Copy)", creator=request.user)
 
             flashcards = Flashcard.objects.filter(deck=original_deck)
             for card in flashcards:
                 Flashcard.objects.create(
+                    author_id = self.request.user.id,
                     front=card.front,
                     back=card.back,
                     deck=new_deck
                 )
 
-            return Response({"detail": "Deck duplicated successfully."}, status=201)
+            new_deck_serialized = DeckSerializer(new_deck).data
+
+            return Response({"detail": "Deck duplicated successfully.", "deck": new_deck_serialized}, status=201)
 
         except Deck.DoesNotExist:
             return Response({"detail": "Deck not found."}, status=404)
