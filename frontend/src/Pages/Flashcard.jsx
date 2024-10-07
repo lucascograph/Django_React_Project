@@ -1,11 +1,11 @@
 import { useContext, useState } from 'react'
 import { FlashcardContext } from '../contexts/FlashcardContext'
 import { Navbar } from '../components/Navbar/Navbar'
-import { DisplayFlashcard } from '../components/DisplayFlashcard/DisplayFlashcard'
-import { CreateEditFlashcard } from '../components/CreateEditFlashcard/CreateEditFlashcard'
-import { ExportCode } from '../components/PopupWindow/ExportCode'
+import { DisplayFlashcard } from '../components/Flashcard/DisplayFlashcard/DisplayFlashcard'
+import { CreateEditFlashcard } from '../components/Flashcard/CreateEditFlashcard/CreateEditFlashcard'
+import { ExportImportDeck } from '../components/Flashcard/ExportImportDeck/ExportImportDeck'
 import { Button } from '../components/Button/Button'
-import DeckList from '../components/DeckList/DeckList'
+import DeckList from '../components/Flashcard/DeckList/DeckList'
 import "./Flashcard.css"
 
 export const Flashcard = () => {
@@ -14,19 +14,16 @@ export const Flashcard = () => {
     isCreatingFlashcard,
     isEditingFlashcard,
     deckList,
-    currentDeck,
     cardList,
     currentCard,
     clearedCards,
-    exportCode,
+    currentDeck,
     setIsCreatingFlashcard,
     setIsEditingFlashcard,
     setCardList,
     setIsShowingFront,
     setCurrentCard,
-    setCurrentDeck,
     setClearedCards,
-    setRefreshDecks,
   } = useContext(FlashcardContext);
 
   const [ showExportCode, setShowExportCode ] = useState(false)
@@ -44,12 +41,13 @@ export const Flashcard = () => {
     }
   }
 
-  const handleExportClick = () => {
-    setShowExportCode(prev => !prev)
+  const handleExportImportClick = () => {
+    if(currentDeck){
+      setShowExportCode(prev => !prev)
+    }
   }
 
   const handleNextClick = () => {
-    console.log("cardlist: ", cardList)
 
     setIsShowingFront(true)
 
@@ -78,7 +76,7 @@ export const Flashcard = () => {
   return (
     <div className='container'>
       <Navbar />
-      {showExportCode && (<ExportCode onButtonClick={setShowExportCode}/>)}
+      {showExportCode && (<ExportImportDeck onButtonClick={setShowExportCode}/>)}
         {isCreatingFlashcard || isEditingFlashcard ?
           (
             <div className='create-content'>
@@ -93,7 +91,7 @@ export const Flashcard = () => {
               <div className='left-btn-box'>
               <Button onClick={handleAddCardClick}>New Card</Button>
               <Button onClick={handleEditCardClick}>Edit Card</Button>
-              <Button onClick={handleExportClick}>Export/import</Button>
+              <Button onClick={handleExportImportClick}>Export/import</Button>
               </div>
             </div>
             <div className='right-side'>

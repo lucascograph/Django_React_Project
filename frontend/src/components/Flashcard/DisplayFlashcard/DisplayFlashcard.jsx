@@ -1,9 +1,9 @@
 import { useState, useContext } from "react";
-import { FlashcardContext } from "../../contexts/FlashcardContext";
+import { FlashcardContext } from "../../../contexts/FlashcardContext";
 import "./DisplayFlashcard.css";
-import api from "../../Api";
+import api from "../../../Api";
 import { IoTrashOutline } from "react-icons/io5";
-import { Button } from "../Button/Button";
+import { Button } from "../../Button/Button";
 
 export const DisplayFlashcard = () => {
 

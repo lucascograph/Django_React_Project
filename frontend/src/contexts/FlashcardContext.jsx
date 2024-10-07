@@ -22,17 +22,11 @@ export const FlashcardProvider = ({ children }) => {
                 if (response.data.length >= 1) {
 
                     setDeckList(response.data)
-                    console.log("deck list:", response.data)
-                    console.log("current deck:", currentDeck)
 
                     if (!currentDeck) {
                         setCurrentDeck(response.data[0])
-                        console.log("current deck: ", response.data[0])
-                        console.log("export: ", response.data[0]["code"])
-                    }else {
-                        console.log("current deck: ", currentDeck)
-                        console.log("export: ", currentDeck.code)
                     }
+
                     setExportCode(currentDeck ? currentDeck.code : response.data[0]["code"])
 
                 } else {

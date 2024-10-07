@@ -93,8 +93,14 @@ class DuplicateDeck(generics.CreateAPIView):
         unique_code = request.data.get('code')
         try:
             original_deck = Deck.objects.get(code=unique_code)
+            imported_deck_name = f"{original_deck.name} (Imported)"
 
-            new_deck = Deck.objects.create(name=f"{original_deck.name} (Copy)", creator=request.user)
+            # Being able to create a duplicate once, but if a duplicated deck alrdy exists I send back an error.
+            if " (Imported) (Imported)" in imported_deck_name \
+                or Deck.objects.filter(name=imported_deck_name, creator=request.user).exists():
+                return Response({"already_exists": True}, status=200)
+
+            new_deck = Deck.objects.create(name=f"{imported_deck_name}", creator=request.user)
 
             flashcards = Flashcard.objects.filter(deck=original_deck)
             for card in flashcards:

@@ -1,8 +1,8 @@
 import {useEffect, useState, useContext } from 'react'
-import { FlashcardContext } from '../../contexts/FlashcardContext'
-import api from '../../Api'
+import { FlashcardContext } from '../../../contexts/FlashcardContext'
+import api from '../../../Api'
 import './CreateEditFlashcard.css'
-import { Button } from '../Button/Button'
+import { Button } from '../../Button/Button'
 
 
 
@@ -23,7 +23,7 @@ export const CreateEditFlashcard = ()=> {
     const [ frontText, setFrontText ] = useState("")
     const [ backText, setBackText ] = useState("")
     const [ newDeckInput, setNewDeckInput ] = useState("")
-    const [ selectedDeck, setSelectedDeck ] = useState("")
+    const [ selectedDeck, setSelectedDeck ] = useState("Select deck")
 
 
     useEffect(() => {
@@ -151,20 +151,20 @@ export const CreateEditFlashcard = ()=> {
                 ) : (
                 <div className='deck-input'>
                     <select className='dropdown' value={selectedDeck} onChange={handleDropdownChange}>
-                        <option value="" disabled>{selectedDeck || "Select deck"}</option>
+                        <option value={selectedDeck} disabled>{selectedDeck}</option>
                         {deckList.map((deck, index) => (
                                 <option key={index} value={deck.name}>
                                     {deck.name}
                                 </option>)
                             )}
                     </select>
-                    <input
-                        className='new-deck-input'
-                        type='text'
-                        placeholder='New deck'
-                        value={newDeckInput}
-                        onChange={handleDeckInput}
-                    />
+                        <input
+                            className='new-deck-input'
+                            type='text'
+                            placeholder='New deck'
+                            value={newDeckInput}
+                            onChange={handleDeckInput}
+                        />
                 </div>
                         )}
                 <div className='buttons'>

@@ -1,9 +1,9 @@
 import { useState, useContext } from "react";
-import { FlashcardContext } from "../../contexts/FlashcardContext";
+import { FlashcardContext } from "../../../contexts/FlashcardContext";
 import "./DeckList.css"
 import { IoTrashOutline } from "react-icons/io5";
-import { Button } from "../Button/Button";
-import api from "../../Api";
+import { Button } from "../../Button/Button";
+import api from "../../../Api";
 
 
 function DeckList() {
@@ -11,7 +11,6 @@ function DeckList() {
     const {
         deckList,
         currentDeck,
-        cardList,
         setCurrentCard,
         setCurrentDeck,
         setExportCode,
@@ -27,7 +26,6 @@ function DeckList() {
         setCurrentDeck(deck)
         setExportCode(deck.code)
         setIsShowingFront(true)
-        console.log("hello: ", cardList)
     }
 
     const handleDeleteIconClick = () => {
@@ -37,6 +35,7 @@ function DeckList() {
 
     const handleDelete = async () => {
         setShowPopup(false)
+        console.log(deckToDelete)
         try {
             await api.delete(`/api/deck/delete/${deckToDelete.id}/`)
 
@@ -64,9 +63,16 @@ function DeckList() {
                 <div className="trashbin">
                     <IoTrashOutline onClick={handleDeleteIconClick} style={{cursor: 'pointer'}} />
                 </div>
-                <span style={{color : currentDeck === deck ? '#ffffff' : '#2e2e2e', backgroundColor: currentDeck === deck ? '#2e2e2e' : 'transparent'}}>
-                    {deck.name}
-                </span>
+                {currentDeck && currentDeck.name === deck.name ? (
+                    <span style={{color: '#ffffff', backgroundColor: '#2e2e2e'}}>
+                        {deck.name}
+                    </span>
+                ) : (
+                    <span style={{color:'#2e2e2e', backgroundColor:'transparent'}}>
+                        {deck.name}
+                    </span>
+                )}
+
             </li>
         )
     })

@@ -1,9 +1,9 @@
 import { useContext, useState } from "react"
-import { FlashcardContext } from "../../contexts/FlashcardContext"
-import api from "../../Api"
-import "./ExportCode.css"
+import { FlashcardContext } from "../../../contexts/FlashcardContext"
+import api from "../../../Api"
+import "./ExportImportDeck.css"
 
-export const ExportCode = ( { onButtonClick } ) => {
+export const ExportImportDeck = ( { onButtonClick } ) => {
 
     const {
         currentDeck,
@@ -25,8 +25,12 @@ export const ExportCode = ( { onButtonClick } ) => {
     const handleImport = async () => {
         try {
             const response = await api.post("/api/deck/duplicate/", {"code": inputCode})
-            console.log(response.data["detail"])
-            setCurrentDeck(response.data["deck"])
+            const deckExists = response.data["already_exists"];
+            if (!deckExists) {
+                setCurrentDeck(response.data["deck"])
+            } else {
+                alert("A copy of this deck already exists!")
+            }
         } catch (error) {
             console.error("error duplicating deck:", error)
         }
