@@ -42,7 +42,7 @@ export const ExportImportDeck = ( { onButtonClick } ) => {
     return (
         <div className="window-box">
             <div className="export">
-                <p>Export deck '{currentDeck.name}':</p> {exportCode}
+                <p>Export deck : {currentDeck ? currentDeck.name : ""}</p> {exportCode}
             </div>
             <div className="import">
                 <p>Import:</p>

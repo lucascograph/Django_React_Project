@@ -42,9 +42,7 @@ export const Flashcard = () => {
   }
 
   const handleExportImportClick = () => {
-    if(currentDeck){
-      setShowExportCode(prev => !prev)
-    }
+    setShowExportCode(prev => !prev)
   }
 
   const handleNextClick = () => {
