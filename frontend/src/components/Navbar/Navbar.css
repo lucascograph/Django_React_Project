@@ -1,5 +1,5 @@
 .active {
-    box-shadow: 
+    box-shadow:
         12px 12px 12px rgba(0, 0, 0, 0.9) inset,
         -10px -10px 10px rgb(95,95,95) inset;
 }
@@ -59,15 +59,15 @@ nav ul li a {
     margin-left: 0.5rem;
 }
 
-/* This is for having the tab stick out when hovering. but i didn't like it for now. 
+/* This is for having the tab stick out when hovering. but i didn't like it for now.
 nav ul li a:hover {
-    box-shadow: 
+    box-shadow:
         12px 12px 12px rgba(18, 18, 18, 0.9),
         -10px -10px 10px rgb(40,40,40);
 } */
 
 nav ul li a:hover {
-    box-shadow: 
+    box-shadow:
         /* 12px 12px 12px rgba(18, 18, 18, 0.9) inset,
         -10px -10px 10px rgb(45,45,45) inset; */
         12px 12px 12px rgba(0, 0, 0, 0.9) inset,

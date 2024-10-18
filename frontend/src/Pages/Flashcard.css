@@ -1,102 +1,65 @@
 .container {
-  display: flex;
-  flex-direction: column;
-}
-
-.create-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 100vw;
+    min-height: 100vh;
 }
 
 .content {
-  display: flex;
-  margin-top: 5vh;
-  height: 80vh;
+    display: flex;
 }
 
-.left-side {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: end;
-  width: 20vw;
-  gap: 20px;
+.content .left-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10vh;
+    height: 80vh;
+    width: 25%;
+}
+.left-side .l-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1vh;
+    width: 100%;
 }
 
-.deck-list {
-  display: flex;
-  justify-content: center;
-  width: 100%;
+.content .right-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    width: 40vw;
+    margin-left: 6vw;
 }
 
-.left-btn-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  gap: 2vh;
+.right-side .r-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2vw;
+    width: 30vw;
+    margin: 3vh;
 }
 
-.left-side button {
-  height: 5vh;
-  width: 10vw;
+.no-card-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    margin-left: 6vw;
+    color: #fff;
+    font-size: 2rem;
+    text-shadow: 3px 3px #2e2e2e;
 }
 
-.right-side {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  height: 83vh;
-  width: 60vw;
-  z-index: 9999;
-}
-
-.right-btn-box button{
-  height: 10vh;
-  width: 25vw;
-  font-size: 1.5rem;
-  font-style: italic;
-  font-weight: 400;
-}
-
-.reset-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 20vw;
-}
-
-.reset-btn button {
-height: 15%;
-}
-
-
-@media (max-width: 1100px) {
-    .content {
-      justify-content: center;
-    }
-
-    .left-side {
-      background-color: red;
-    }
-
-    .right-side {
-      background-color: rebeccapurple;
-    }
-
-    .card-box {
-    margin-left: 5px;
-    }
-}
-
-
-.deck-list {
-
-}
-
-.card-box {
+.reset {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    margin-left: 6vw;
 }

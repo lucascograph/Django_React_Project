@@ -9,21 +9,10 @@
     border-radius: 40px;
     box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.4),
     3px 3px 3px rgba(20, 20, 20, .3) inset;
+    position: absolute;
+    top: 15vh;
+    left: 30vw;
 }
-@media (max-width: 850px) {
-    .card-form {
-        height: 75vh;
-        width: 50vw;
-    }
-}
-@media (max-width: 600px) {
-    .card-form {
-        height: 75vh;
-        width: 70vw;
-        min-width: 300px;
-    }
-}
-
 
 .title {
     margin-bottom: 1vh;

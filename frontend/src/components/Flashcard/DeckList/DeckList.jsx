@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { FlashcardContext } from "../../../contexts/FlashcardContext";
 import "./DeckList.css"
 import { IoTrashOutline } from "react-icons/io5";
-import { Button } from "../../Button/Button";
+import Button from "../../Button/Button";
 import api from "../../../Api";
 
 

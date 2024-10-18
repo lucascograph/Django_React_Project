@@ -11,19 +11,6 @@
     box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.4),
     3px 3px 3px rgba(20, 20, 20, .3) inset;
 }
-@media (max-width: 850px) {
-    .card {
-        height: 75vh;
-        width: 50vw;
-    }
-}
-@media (max-width: 600px) {
-    .card {
-        height: 75vh;
-        width: 70vw;
-        min-width: 300px;
-    }
-}
 
 .top {
     display: flex;

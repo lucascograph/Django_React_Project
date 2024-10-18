@@ -2,7 +2,7 @@ import {useEffect, useState, useContext } from 'react'
 import { FlashcardContext } from '../../../contexts/FlashcardContext'
 import api from '../../../Api'
 import './CreateEditFlashcard.css'
-import { Button } from '../../Button/Button'
+import Button from '../../Button/Button'
 
 
 
@@ -168,10 +168,10 @@ export const CreateEditFlashcard = ()=> {
                 </div>
                         )}
                 <div className='buttons'>
-                    <Button onClick={isEditingFlashcard ? handleEdit : handleCreate}>
+                    <Button standard onClick={isEditingFlashcard ? handleEdit : handleCreate}>
                         {isEditingFlashcard ? "Edit" : "Create"}
                     </Button>
-                    <Button onClick={handleCancelClick}>Cancel</Button>
+                    <Button standard onClick={handleCancelClick}>Cancel</Button>
                 </div>
             </div>
     );
