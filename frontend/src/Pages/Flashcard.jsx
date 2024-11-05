@@ -104,11 +104,13 @@ export const Flashcard = () => {
                 <ExportImportDeck onButtonClick={setShowExportCode}/>
             )}
             {isCreatingFlashcard || isEditingFlashcard ? (
-                <CreateEditFlashcard />
+                <div className='create-edit-content'>
+                    <CreateEditFlashcard />
+                </div>
             ) : (
                 <div className='content'>
                     <div className='left-side'>
-                    <DeckList />
+                    <DeckList className="deck-list" />
                         <div className='l-btn'>
                             <Button standard onClick={handleAddCardClick}>New Card</Button>
                             <Button standard onClick={handleEditCardClick}>Edit Card</Button>

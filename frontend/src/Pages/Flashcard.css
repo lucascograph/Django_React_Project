@@ -1,7 +1,6 @@
 .container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     min-width: 100vw;
     min-height: 100vh;
 }
@@ -13,18 +12,20 @@
 .content .left-side {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 10vh;
-    height: 80vh;
+    height: 86vh;
     width: 25%;
+    margin-top: 2vh;
 }
 .left-side .l-btn {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1vh;
+    gap: 2vh;
+    height: 20vh;
     width: 100%;
+    margin-bottom: 4vh;
 }
 
 .content .right-side {
@@ -41,8 +42,9 @@
     justify-content: space-between;
     align-items: center;
     gap: 2vw;
+    height: 14vh;
     width: 30vw;
-    margin: 3vh;
+    margin-top: 4vh;
 }
 
 .no-card-text {
@@ -62,4 +64,11 @@
     align-items: center;
     width: 40%;
     margin-left: 6vw;
+}
+
+.create-edit-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 88vh;
 }

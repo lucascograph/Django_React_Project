@@ -1,75 +1,50 @@
-.active {
-    box-shadow:
-        12px 12px 12px rgba(0, 0, 0, 0.9) inset,
-        -10px -10px 10px rgb(95,95,95) inset;
-}
-
-nav {
+.navbar {
     display: flex;
-    justify-content: space-between;
-    height: 3rem;
-    background-color: #2e2e2e;
+    height: 8vh;
+    background-color: rgb(180, 8, 8);
 }
 
-.home {
+.logo {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 1rem;
+    width: 10vw;
 }
 
-.home a {
+.nav-links {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 20vw;
+    flex-grow: 1;
+}
+
+.links {
+    display: flex;
+    right: 10vw;
+}
+.links li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 8vh;
+    width: 180px;
     font-size: 1.5rem;
-    font-weight: bold;
-    text-decoration: none;
-    color: #fff;
+    color: white;
+}
+.links li:hover {
+    border-left: 1px solid rgb(160, 0, 0);
+    border-right: 1px solid rgb(160, 0, 0);
+    border-radius: 10px;
+    cursor: pointer;
+}
+.active {
+    background-color: rgb(155, 0, 0);
+    border-radius: 10px;
 }
 
 .logout {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 1rem;
-}
-
-.logout a {
-    font-size: 0.8rem;
     text-decoration: underline;
-    color: #fff;
-}
-
-nav ul {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-nav ul li {
-    list-style: none;
-    border-radius: 0.2rem;
-}
-
-nav ul li a {
-    font-size: 1.5rem;
-    display: block;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 0.5rem;
-    padding: 0.5rem 3rem 0.5rem;
-    margin-left: 0.5rem;
-}
-
-/* This is for having the tab stick out when hovering. but i didn't like it for now.
-nav ul li a:hover {
-    box-shadow:
-        12px 12px 12px rgba(18, 18, 18, 0.9),
-        -10px -10px 10px rgb(40,40,40);
-} */
-
-nav ul li a:hover {
-    box-shadow:
-        /* 12px 12px 12px rgba(18, 18, 18, 0.9) inset,
-        -10px -10px 10px rgb(45,45,45) inset; */
-        12px 12px 12px rgba(0, 0, 0, 0.9) inset,
-        -10px -10px 10px rgb(95,95,95) inset;
+    font-size: 0.8rem;
+    margin-right: 3vw;
 }

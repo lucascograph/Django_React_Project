@@ -2,8 +2,8 @@ import { useState, useContext } from "react";
 import { FlashcardContext } from "../../../contexts/FlashcardContext";
 import "./DeckList.css"
 import { IoTrashOutline } from "react-icons/io5";
-import Button from "../../Button/Button";
 import api from "../../../Api";
+import { Popup } from "../../popup/popup";
 
 
 function DeckList() {
@@ -21,6 +21,7 @@ function DeckList() {
     const [ showPopup, setShowPopup ] = useState(false)
     const [ hoveredDeck, setHoveredDeck ] = useState(null)
     const [ deckToDelete, setDeckToDelete ] = useState(null)
+    const [ mousePosition, setMousePosition ] = useState({x: 0, y: 0})
 
     const handleSelectDeck = (deck) => {
         setCurrentDeck(deck)
@@ -28,8 +29,9 @@ function DeckList() {
         setIsShowingFront(true)
     }
 
-    const handleDeleteIconClick = () => {
+    const handleDeleteIconClick = (event) => {
         setShowPopup(true)
+        setMousePosition({x: event.clientX, y: event.clientY})
         setDeckToDelete(hoveredDeck)
     }
 
@@ -86,13 +88,12 @@ function DeckList() {
             <ul>{renderList}</ul>
         </div>
             {showPopup && currentDeck && (
-                <div className="popup">
-                    <p>Are you sure you want to delete deck: '{currentDeck.name}' ?</p>
-                    <div className="popup-buttons">
-                        <Button onClick={handleDelete}>Yes</Button>
-                        <Button onClick={handleCancel}>No</Button>
-                    </div>
-                </div>
+                <Popup
+                    onSubmit={handleDelete}
+                    onCancel={handleCancel}
+                    text={`Are you sure you want to delete '${currentDeck.name}' ?`}
+                    position={[mousePosition?.x, mousePosition?.y]}
+                />
             )}
         </>
     )

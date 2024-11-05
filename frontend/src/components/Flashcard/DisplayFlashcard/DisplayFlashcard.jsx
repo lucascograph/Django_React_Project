@@ -3,7 +3,7 @@ import { FlashcardContext } from "../../../contexts/FlashcardContext";
 import "./DisplayFlashcard.css";
 import api from "../../../Api";
 import { IoTrashOutline } from "react-icons/io5";
-import Button from "../../Button/Button";
+import { Popup } from "../../popup/popup";
 
 export const DisplayFlashcard = () => {
 
@@ -18,9 +18,11 @@ export const DisplayFlashcard = () => {
 
 
     const [ showPopup, setShowPopup ] = useState(false)
+    const [ mousePosition, setMousePosition ] = useState({x: 0, y: 0})
 
     const handleDeleteIconClick = () => {
         setShowPopup(true)
+        setMousePosition({x: event.clientX, y: event.clientY})
     }
 
     const handleClickOnCard = () => {
@@ -67,13 +69,12 @@ export const DisplayFlashcard = () => {
                 </div>
             </div>
             {showPopup && (
-                <div className="popup-box">
-                    <p>Are you sure you want to delete this card from '{currentDeck?.name}' ?</p>
-                    <div className="popup-buttons">
-                        <Button onClick={handleDelete} >Yes</Button>
-                        <Button onClick={handleCancel}>No</Button>
-                    </div>
-                </div>
+                <Popup
+                    onSubmit={handleDelete}
+                    onCancel={handleCancel}
+                    text={`Are you sure that you want to delete this card from '${currentDeck?.name}'`}
+                    position={[mousePosition?.x, mousePosition?.y]}
+                />
             )}
         </>
     );
