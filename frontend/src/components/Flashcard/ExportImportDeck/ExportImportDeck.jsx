@@ -2,8 +2,9 @@ import { useContext, useState } from "react"
 import { FlashcardContext } from "../../../contexts/FlashcardContext"
 import api from "../../../Api"
 import "./ExportImportDeck.css"
+import Button from "../../Button/Button"
 
-export const ExportImportDeck = ( { onButtonClick } ) => {
+export const ExportImportDeck = ( { onButtonClick, position } ) => {
 
     const {
         currentDeck,
@@ -39,16 +40,28 @@ export const ExportImportDeck = ( { onButtonClick } ) => {
         setRefreshDecks(prev => !prev)
     }
 
+    // return (
+    //     <div className="window-box">
+    //         <div className="export">
+    //             <p>Export deck : {currentDeck ? currentDeck.name : ""}</p> {exportCode}
+    //         </div>
+    //         <div className="import">
+    //             <p>Import:</p>
+    //             <input onChange={handleInput} placeholder="deck code here:"></input>
+    //             <button onClick={handleImport}>Import</button>
+    //             <button onClick={handleCancel}>Cancel</button>
+    //         </div>
+    //     </div>
+    // )
     return (
-        <div className="window-box">
-            <div className="export">
-                <p>Export deck : {currentDeck ? currentDeck.name : ""}</p> {exportCode}
+        <div className='export-box' style={{left: `${position[0]}px`, top: `${position[1] - 200}px`}}>
+            <div className='export-field'>Export {currentDeck?.name}: <span className="export-code">{exportCode}</span></div>
+            <div className="import-field">
+                Import: <input className="import-input" onChange={handleInput} placeholder="code here"></input>
             </div>
-            <div className="import">
-                <p>Import:</p>
-                <input onChange={handleInput} placeholder="deck code here:"></input>
-                <button onClick={handleImport}>Import</button>
-                <button onClick={handleCancel}>Cancel</button>
+            <div className='import-buttons'>
+                <Button standard onClick={handleImport}>Import</Button>
+                <Button standard onClick={handleCancel}>Cancel</Button>
             </div>
         </div>
     )

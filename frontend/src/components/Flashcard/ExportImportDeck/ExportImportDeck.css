@@ -1,30 +1,41 @@
-.window-box {
+.export-box {
+    position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    position: absolute;
-    z-index: 10000;
-    top: 60vh;
-    left: 10vw;
-    height: 30vh;
-    width: 25vw;
-    background-color: white;
-    border-radius: 40px;
-    box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.4),
-    3px 3px 3px rgba(20, 20, 20, .3) inset;
+    align-items: left;
+    min-height: 20vh;
+    border: 0.2px #cfcfcf solid;
+    border-radius: 5px;
+    padding: 1vw;
+    background-color: #ffffff;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+    z-index: 99999;
 }
 
-.export {
+.export-field {
+}
+.export-code {
+    font-style: italic;
+    color: gray;
+}
+
+.import-field{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    gap: 2vw;
+}
+.import-input {
+    border: 1px solid black;
+    width: 80%;
+    margin: 2vh 0vw;
+}
+
+.import-buttons {
+    display: flex;
+    align-items: center;
+    gap: 2vw;
+    min-height: 6vh;
     width: 100%;
-    background-color: seagreen;
-}
-
-.import {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }

@@ -29,6 +29,7 @@ export const Flashcard = () => {
     } = useContext(FlashcardContext);
 
     const [ showExportCode, setShowExportCode ] = useState(false)
+    const [ mousePosition, setMousePosition ] = useState({x: 0, y: 0})
 
     const handleAddCardClick = () => {
         setIsCreatingFlashcard(true)
@@ -43,7 +44,8 @@ export const Flashcard = () => {
         }
     }
 
-    const handleExportImportClick = () => {
+    const handleExportImportClick = (event) => {
+        setMousePosition({x: event.clientX, y: event.clientY})
         setShowExportCode(prev => !prev)
     }
 
@@ -101,7 +103,7 @@ export const Flashcard = () => {
         <div className='container'>
             <Navbar />
             {showExportCode && (
-                <ExportImportDeck onButtonClick={setShowExportCode}/>
+                <ExportImportDeck onButtonClick={setShowExportCode} position={[mousePosition?.x, mousePosition?.y]} />
             )}
             {isCreatingFlashcard || isEditingFlashcard ? (
                 <div className='create-edit-content'>

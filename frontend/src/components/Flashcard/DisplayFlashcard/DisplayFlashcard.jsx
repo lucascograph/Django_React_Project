@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { FlashcardContext } from "../../../contexts/FlashcardContext";
 import "./DisplayFlashcard.css";
 import api from "../../../Api";
@@ -11,6 +11,8 @@ export const DisplayFlashcard = () => {
         currentCard,
         isShowingFront,
         currentDeck,
+        clearedCards,
+        cardList,
         setCurrentCard,
         setIsShowingFront,
         setRefreshDecks,
@@ -19,8 +21,14 @@ export const DisplayFlashcard = () => {
 
     const [ showPopup, setShowPopup ] = useState(false)
     const [ mousePosition, setMousePosition ] = useState({x: 0, y: 0})
+    const [amountOfCardsInDeck, setAmountOfCardsInDeck ] = useState(0)
 
-    const handleDeleteIconClick = () => {
+
+    useEffect(() => {
+        setAmountOfCardsInDeck(cardList?.length)
+    }, [currentDeck])
+
+    const handleDeleteIconClick = (event) => {
         setShowPopup(true)
         setMousePosition({x: event.clientX, y: event.clientY})
     }
@@ -54,7 +62,10 @@ export const DisplayFlashcard = () => {
         <>
             <div className="card" onClick={handleClickOnCard}>
                 <div className="top">
-                    <IoTrashOutline className="trash-icon" onClick={handleDeleteIconClick} style={{cursor: 'pointer'}} />
+                    <div className="card-info">
+                        <IoTrashOutline className="trash-icon" onClick={handleDeleteIconClick} style={{cursor: 'pointer'}} />
+                        <div>{clearedCards?.length}/{amountOfCardsInDeck}</div>
+                    </div>
                     <div className="card-info">
                         <div className="deck">Deck: {currentDeck?.name}</div>
                         <div className="created">Created: {currentCard["date_created"].split("T")[0]}</div> {/* date: 2024-01-01T04:27...... */}

@@ -6,7 +6,6 @@
     height: 60vh;
     width: 30vw;
     background-color: white;
-    gap: 4vh;
     border-radius: 40px;
     box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.4),
     3px 3px 3px rgba(20, 20, 20, .3) inset;
@@ -15,8 +14,9 @@
 .top {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     width: 80%;
-    gap: 2vh;
+    height: 14%;
 }
 
 .trash-icon {
@@ -29,7 +29,6 @@
 .card-info {
     display: flex;
     justify-content: space-between;
-    height: 6vh;
     color: rgb(180, 165, 165);
     font-style: italic;
 }
@@ -44,12 +43,13 @@
     -5px -5px 5px rgba(110, 110, 110, 0.2) inset;
     overflow: hidden;
     word-wrap: break-word;
+    padding: 2vw;
 }
 
 .text {
     text-align: center;
     margin: auto;
-    font-size: 5em;
+    font-size: 2em;
     overflow: hidden;
 }
 
