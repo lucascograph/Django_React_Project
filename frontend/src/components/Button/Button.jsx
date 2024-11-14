@@ -3,7 +3,6 @@ import { twMerge } from "tailwind-merge"
 
 function Button({
     children,
-    large,
     accept,
     decline,
     standard,

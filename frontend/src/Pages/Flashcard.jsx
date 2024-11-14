@@ -124,8 +124,8 @@ export const Flashcard = () => {
                             <div className='right-side'>
                                 <DisplayFlashcard />
                                 <div className='r-btn'>
-                                    <Button decline small onClick={handleHardClick}>Hard</Button>
-                                    <Button accept large onClick={handleEasyClick}>Easy</Button>
+                                    <Button decline onClick={handleHardClick}>Hard</Button>
+                                    <Button accept onClick={handleEasyClick}>Easy</Button>
                                 </div>
                             </div>
                         ) : (

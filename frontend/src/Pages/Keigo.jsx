@@ -25,7 +25,6 @@ export const Keigo = () => {
     ]
 
     const handleClick = () => {
-        console.log("hello, clicked!")
     }
 
     return (

@@ -21,10 +21,10 @@ export default function Phonecall() {
                 <SentenceQuestions questions={"hello"} onCleared={handleClearedStage}/>
             )}
             {currentStage === 2 && (
-                console.log("hello")
+                <div>HELLO</div>
             )}
             {currentStage === 3 && (
-                console.log("hello")
+                <div>HELLO</div>
             )}
         </div>
     )
