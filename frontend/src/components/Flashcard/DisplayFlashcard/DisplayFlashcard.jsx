@@ -21,12 +21,6 @@ export const DisplayFlashcard = () => {
 
     const [ showPopup, setShowPopup ] = useState(false)
     const [ mousePosition, setMousePosition ] = useState({x: 0, y: 0})
-    const [amountOfCardsInDeck, setAmountOfCardsInDeck ] = useState(0)
-
-
-    useEffect(() => {
-        setAmountOfCardsInDeck(cardList?.length)
-    }, [currentDeck])
 
     const handleDeleteIconClick = (event) => {
         setShowPopup(true)
@@ -64,7 +58,7 @@ export const DisplayFlashcard = () => {
                 <div className="top">
                     <div className="card-info">
                         <IoTrashOutline className="trash-icon" onClick={handleDeleteIconClick} style={{cursor: 'pointer'}} />
-                        <div>{clearedCards?.length}/{amountOfCardsInDeck}</div>
+                        <div>{clearedCards?.length + 1}/{cardList?.length + clearedCards?.length}</div>
                     </div>
                     <div className="card-info">
                         <div className="deck">Deck: {currentDeck?.name}</div>

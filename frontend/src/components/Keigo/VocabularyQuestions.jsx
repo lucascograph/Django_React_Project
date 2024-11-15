@@ -1,22 +1,23 @@
 import { useEffect, useState } from 'react'
 import "./VocabularyQuestions.css"
 import Button from '../Button/Button'
+import image_1 from "../../images/phonecall_1.jpg"
+import image_2 from "../../images/phonecall_2.jpg"
 
 
 
 function VocabularyQuestions({onCleared}) {
 
     const init_questions = [
-        { id: 1, word: "Answering the phone:", options: ["ABC株式会社でございます。", "もしもし。", "お疲れ様です。", "いつもお世話になっております。"], correct: "ABC株式会社でございます。" },
-        { id: 2, word: "Introducing yourself:", options: ["ABC株式会社の田中さんと申します。", "ABC株式会社の田中と申します。", "おはようございます、田中です。", "もしもし、お疲れ様です。"], correct: "ABC株式会社の田中と申します。" },
-        { id: 3, word: "見る", options: ["ご覧になります", "拝見します", "伺います", "差し上げます"], correct: "拝見します" },
-        { id: 4, word: "今", options: ["ただいま", "1", "2", "3"], correct: "ただいま"}
+        { id: 1, question: "First time introduction:", options: ["① ABC株式会社の田中さんと申します。", "① ABC株式会社の田中と申します。", "① おはようございます、田中です。", "① もしもし、お疲れ様です。"], correct: "① ABC株式会社の田中と申します。", image: image_1},
+        { id: 2, question: "Asking for a person:", options: ["① こちらこそ / ② 木村様はいらっしゃいますか？", "① こちらこそ / ② 木村さんはいらっしゃいますか？", "① そちらこそ / ② 木村さんと話したいんですが..", "① そちらこそ / ② 木村様がいるんでしょうか？"], correct: "① こちらこそ / ② 木村様はいらっしゃいますか？", image: image_2 },
+        { id: 3, question: "I will call back later:", options: ["後ほどかけ直します。", "1", "2", "3"], correct: "後ほどかけ直します。"}
     ]
 
 
     const [ currentQuestion, setCurrentQuestion ] = useState(0)
     const [ questions, setShuffledQuestions] = useState(init_questions)
-    const [ feedback, setFeedback ] = useState(questions[currentQuestion].word)
+    const [ feedback, setFeedback ] = useState(questions[currentQuestion].question)
     const [ isCorrect, setIsCorrect ] = useState(false)
     const [ hideButtons, setHideButtons ] = useState(false)
 
@@ -52,7 +53,7 @@ function VocabularyQuestions({onCleared}) {
 
             if (currentQuestion < (questions.length - 1)) {
                 setTimeout(() => {
-                    setFeedback(questions[currentQuestion + 1].word)
+                    setFeedback(questions[currentQuestion + 1].question)
                     setCurrentQuestion((prev) => prev + 1)
                     setIsCorrect(false)
                     setHideButtons(false)
@@ -73,7 +74,7 @@ function VocabularyQuestions({onCleared}) {
             questions[currentQuestion].options = questions[currentQuestion].options.filter(option => option !== answer)
 
             setTimeout(() => {
-                setFeedback(questions[currentQuestion].word)
+                setFeedback(questions[currentQuestion].question)
                 setHideButtons(false)
             }, 1500);
         }
@@ -81,8 +82,9 @@ function VocabularyQuestions({onCleared}) {
 
     return (
         <div className="question-container">
-            <div className="fake-image" />
-            Vocabulary quiz:
+            <div className='image-container'>
+                <img src={questions[currentQuestion].image} alt="topic-image" />
+            </div>
             {!hideButtons ? (
                 <>
                 <div className="feedback">{feedback}</div>
