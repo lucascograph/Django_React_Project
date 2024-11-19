@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import "./VocabularyQuestions.css"
+import "./OptionQuestions.css"
 import Button from '../Button/Button'
 import image_1 from "../../images/phonecall_1.jpg"
 import image_2 from "../../images/phonecall_2.jpg"

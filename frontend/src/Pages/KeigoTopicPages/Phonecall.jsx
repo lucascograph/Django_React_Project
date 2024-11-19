@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Navbar } from '../../components/Navbar/Navbar'
-import VocabularyQuestions from '../../components/Keigo/vocabularyQuestions'
+import OptionQuestions from '../../components/Keigo/OptionQuestions'
 import SentenceQuestions from '../../components/Keigo/SentenceQuestions'
 import "./Phonecall.css"
 
@@ -17,7 +17,7 @@ export default function Phonecall() {
             <Navbar />
             <div className='questionnaire'>
                 {currentStage === 0 && (
-                    <VocabularyQuestions onCleared={handleClearedStage}/>
+                    <OptionQuestions onCleared={handleClearedStage}/>
                 )}
                 {currentStage === 1 && (
                     <SentenceQuestions questions={"hello"} onCleared={handleClearedStage}/>
