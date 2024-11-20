@@ -11,6 +11,8 @@ function DeckList() {
     const {
         deckList,
         currentDeck,
+        setHardCards,
+        setLastCardStack,
         setCurrentCard,
         setCurrentDeck,
         setExportCode,
@@ -27,6 +29,8 @@ function DeckList() {
         setCurrentDeck(deck)
         setExportCode(deck.code)
         setIsShowingFront(true)
+        setLastCardStack([])
+        setHardCards([])
     }
 
     const handleDeleteIconClick = (event) => {

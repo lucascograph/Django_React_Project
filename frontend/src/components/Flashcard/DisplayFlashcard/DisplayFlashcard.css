@@ -16,7 +16,8 @@
     flex-direction: column;
     justify-content: center;
     width: 80%;
-    height: 14%;
+    height: 20%;
+    margin-top: 2%;
 }
 
 .trash-icon {
@@ -51,6 +52,15 @@
     margin: auto;
     font-size: 2em;
     overflow: hidden;
+}
+
+.previous-arrow {
+  margin-top: auto;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  width: 90%;
+  height: 10%;
 }
 
 .popup-box {

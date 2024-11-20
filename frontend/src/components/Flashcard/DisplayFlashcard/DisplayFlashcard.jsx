@@ -1,9 +1,9 @@
-import { useState, useEffect, useContext } from "react";
-import { FlashcardContext } from "../../../contexts/FlashcardContext";
-import "./DisplayFlashcard.css";
-import api from "../../../Api";
-import { IoTrashOutline } from "react-icons/io5";
-import { Popup } from "../../popup/popup";
+import { useState, useContext } from "react"
+import { FlashcardContext } from "../../../contexts/FlashcardContext"
+import "./DisplayFlashcard.css"
+import api from "../../../Api"
+import { IoTrashOutline } from "react-icons/io5"
+import { Popup } from "../../popup/popup"
 
 export const DisplayFlashcard = () => {
 
@@ -14,6 +14,7 @@ export const DisplayFlashcard = () => {
         clearedCards,
         cardList,
         setCurrentCard,
+        setCardList,
         setIsShowingFront,
         setRefreshDecks,
      } =  useContext(FlashcardContext)
@@ -42,7 +43,18 @@ export const DisplayFlashcard = () => {
             console.error('Error details:', error.response ? error.response.data : error.message);
         }
 
-        setCurrentCard(null)
+        if (cardList.length > 1) {
+            const remainingCards = cardList.filter((card) => card !== currentCard);
+
+            const randomIndex = Math.floor(Math.random() * remainingCards.length);
+            setCurrentCard(remainingCards[randomIndex]);
+
+            setCardList(remainingCards);
+        } else if (cardList.length === 1) {
+            setCardList([]);
+            setCurrentCard(null);
+        }
+
         setRefreshDecks(prev => !prev)
         setShowPopup(false)
     }

@@ -14,6 +14,8 @@ export const FlashcardProvider = ({ children }) => {
     const [ clearedCards, setClearedCards ] = useState([])
     const [ refreshDecks, setRefreshDecks ] = useState(false)
     const [ exportCode, setExportCode ] = useState("")
+    const [ lastCardStack, setLastCardStack ] = useState([])
+    const [ hardCards, setHardCards ] = useState([])
 
     useEffect(() => {
         const fetchDecks = async () => {
@@ -70,6 +72,10 @@ export const FlashcardProvider = ({ children }) => {
     currentCard,
     clearedCards,
     exportCode,
+    lastCardStack,
+    hardCards,
+    setHardCards,
+    setLastCardStack,
     setIsCreatingFlashcard,
     setIsEditingFlashcard,
     setDeckList,

@@ -4,13 +4,12 @@ import { Navbar } from '../components/Navbar/Navbar'
 import { DisplayFlashcard } from '../components/Flashcard/DisplayFlashcard/DisplayFlashcard'
 import { CreateEditFlashcard } from '../components/Flashcard/CreateEditFlashcard/CreateEditFlashcard'
 import { ExportImportDeck } from '../components/Flashcard/ExportImportDeck/ExportImportDeck'
+import { PiArrowFatLeftLight } from "react-icons/pi"
 import Button from '../components/Button/Button'
 import DeckList from '../components/Flashcard/DeckList/DeckList'
 import "./Flashcard.css"
 
 export const Flashcard = () => {
-
-    const [ hardCards, setHardCards ] = useState([])
 
     const {
         isCreatingFlashcard,
@@ -20,13 +19,17 @@ export const Flashcard = () => {
         currentCard,
         currentDeck,
         clearedCards,
+        lastCardStack,
+        hardCards,
+        setHardCards,
+        setLastCardStack,
         setIsCreatingFlashcard,
         setIsEditingFlashcard,
         setCardList,
         setIsShowingFront,
         setCurrentCard,
         setClearedCards,
-    } = useContext(FlashcardContext);
+    } = useContext(FlashcardContext)
 
     const [ showExportCode, setShowExportCode ] = useState(false)
     const [ mousePosition, setMousePosition ] = useState({x: 0, y: 0})
@@ -53,19 +56,21 @@ export const Flashcard = () => {
 
         setIsShowingFront(true)
 
-        setClearedCards([...clearedCards, currentCard]);
+        setClearedCards([...clearedCards, currentCard])
         setHardCards([...hardCards, currentCard])
+        setLastCardStack([...lastCardStack, currentCard])
 
         if (cardList.length > 1) {
-            const remainingCards = cardList.filter((card) => card !== currentCard);
+            const remainingCards = cardList.filter((card) => card !== currentCard)
 
-            const randomIndex = Math.floor(Math.random() * remainingCards.length);
-            setCurrentCard(remainingCards[randomIndex]);
+            const randomIndex = Math.floor(Math.random() * remainingCards.length)
+            setCurrentCard(remainingCards[randomIndex])
 
-            setCardList(remainingCards);
+            setCardList(remainingCards)
         } else if (cardList.length === 1) {
-            setCardList([]);
-            setCurrentCard(null);
+            setCardList([])
+            setCurrentCard(null)
+            setLastCardStack([...lastCardStack, currentCard])
         }
     }
 
@@ -73,19 +78,30 @@ export const Flashcard = () => {
 
         setIsShowingFront(true)
 
-        setClearedCards([...clearedCards, currentCard]);
+        setClearedCards([...clearedCards, currentCard])
+        setLastCardStack([...lastCardStack, currentCard])
 
         if (cardList.length > 1) {
-            const remainingCards = cardList.filter((card) => card !== currentCard);
+            const remainingCards = cardList.filter((card) => card !== currentCard)
 
-            const randomIndex = Math.floor(Math.random() * remainingCards.length);
-            setCurrentCard(remainingCards[randomIndex]);
+            const randomIndex = Math.floor(Math.random() * remainingCards.length)
+            setCurrentCard(remainingCards[randomIndex])
 
-            setCardList(remainingCards);
+            setCardList(remainingCards)
         } else if (cardList.length === 1) {
-            setCardList([]);
-            setCurrentCard(null);
+            setCardList([])
+            setCurrentCard(null)
+            setLastCardStack([])
         }
+    }
+
+    const handlePreviousClick = () => {
+        const lastCard = lastCardStack[lastCardStack.length - 1]
+        setCurrentCard(lastCard)
+        setCardList([...cardList, lastCard])
+        setClearedCards(clearedCards.filter(card => card !== lastCard))
+        setHardCards(hardCards.filter(card => card !== lastCard))
+        setLastCardStack(lastCardStack.filter(card => card !== lastCard))
     }
 
     const handleResetDeckClick = () => {
@@ -94,9 +110,7 @@ export const Flashcard = () => {
         setCurrentCard(hardCards[randomIndex])
         setClearedCards([])
         setHardCards([])
-
-        console.log(hardCards)
-        console.log(currentCard)
+        setLastCardStack([])
     }
 
     return (
@@ -122,7 +136,15 @@ export const Flashcard = () => {
                     {cardList.length > 0 ? (
                         currentCard ? (
                             <div className='right-side'>
-                                <DisplayFlashcard />
+                                <div className='r-upper'>
+                                    <div className="previous-button">
+                                        <PiArrowFatLeftLight size={'5em'}
+                                            className={lastCardStack?.length < 1 ? 'text-transparent' : 'text-gray-400 cursor-pointer'}
+                                            onClick={lastCardStack?.length < 1 ? undefined : handlePreviousClick}
+                                        />
+                                    </div>
+                                    <DisplayFlashcard />
+                                </div>
                                 <div className='r-btn'>
                                     <Button decline onClick={handleHardClick}>Hard</Button>
                                     <Button accept onClick={handleEasyClick}>Easy</Button>

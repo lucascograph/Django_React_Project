@@ -31,19 +31,30 @@
 .content .right-side {
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    justify-content: center;
+    align-items: end;
+    width: 35vw;
+    margin-left: 4vw;
+}
+
+.right-side .r-upper {
+    display: flex;
+    width: 100%;
+}
+.r-upper .previous-button {
+    display: flex;
+    justify-content: center;
     align-items: center;
-    width: 40vw;
-    margin-left: 6vw;
+    width: 15%;
 }
 
 .right-side .r-btn {
     display: flex;
-    justify-content: space-between;
+    justify-self: end;
     align-items: center;
     gap: 2vw;
     height: 14vh;
-    width: 30vw;
+    width: 85%;
     margin-top: 4vh;
 }
 

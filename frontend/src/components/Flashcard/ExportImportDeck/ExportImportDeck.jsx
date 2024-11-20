@@ -40,19 +40,6 @@ export const ExportImportDeck = ( { onButtonClick, position } ) => {
         setRefreshDecks(prev => !prev)
     }
 
-    // return (
-    //     <div className="window-box">
-    //         <div className="export">
-    //             <p>Export deck : {currentDeck ? currentDeck.name : ""}</p> {exportCode}
-    //         </div>
-    //         <div className="import">
-    //             <p>Import:</p>
-    //             <input onChange={handleInput} placeholder="deck code here:"></input>
-    //             <button onClick={handleImport}>Import</button>
-    //             <button onClick={handleCancel}>Cancel</button>
-    //         </div>
-    //     </div>
-    // )
     return (
         <div className='export-box' style={{left: `${position[0]}px`, top: `${position[1] - 200}px`}}>
             <div className='export-field'>Export {currentDeck?.name}: <span className="export-code">{exportCode}</span></div>
