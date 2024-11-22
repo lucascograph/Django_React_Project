@@ -1,0 +1,14 @@
+.sentence-input {
+    height: 3rem;
+    width: 40vw;
+    padding: 2vw;
+    font-size: 2rem;
+    text-align: center;
+
+    border: none;
+    box-shadow: 3px 3px 3px rgba(240, 240, 240, 1) inset, 3px 3px 3px rgba(240, 240, 240, 1);
+}
+.user-input::placeholder {
+    font-style: italic;
+    color: rgb(197, 197, 197);
+}

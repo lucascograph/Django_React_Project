@@ -48,8 +48,8 @@ export const DisplayFlashcard = () => {
 
             const randomIndex = Math.floor(Math.random() * remainingCards.length);
             setCurrentCard(remainingCards[randomIndex]);
-
             setCardList(remainingCards);
+            setIsShowingFront(true)
         } else if (cardList.length === 1) {
             setCardList([]);
             setCurrentCard(null);

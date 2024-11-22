@@ -5,8 +5,8 @@ import image_3 from "../../images/phonecall_3.jpg"
 
 function SentenceQuestions({ onCleared }) {
     const questions = [
-        { id: 1, sentence: "ABC株式会社の田中と言います", normal: ["言います"], formal: [["申します", "もうします", "モウシマス", "moushimasu"]], image: image_1 },
-        { id: 2, sentence: "木村さんがいますか", normal: ["さん", "います"], formal: [["様", "さま", "sama"], ["いらっしゃいます", "イラッシャイマス", "irasshaimasu"]], image: image_3 },
+        { id: 1, sentence: "ABC株式会社の田中と言います", normal: ["言います"], formal: [["申します", "もうします", "モウシマス", "moushimasu", "1"]], image: image_1 },
+        { id: 2, sentence: "木村さんがいますか", normal: ["さん", "いますか"], formal: [["様", "さま", "sama", "1"], ["1", "いらっしゃいますか", "イラッシャイマスカ", "irasshaimasuka"]], image: image_3 },
     ]
 
     const [currentQuestion, setCurrentQuestion] = useState(0)
@@ -27,7 +27,6 @@ function SentenceQuestions({ onCleared }) {
                 setIsCorrect(true)
                 setClearedWords([...clearedWords, currentNormalWord])
                 setUserInput("")
-                questions[currentQuestion].sentence = questions[currentQuestion].sentence.replace
 
                 if (clearedWords.length + 1 >= currentQuestionData.normal.length) {
                     if (currentQuestion < questions.length - 1) {

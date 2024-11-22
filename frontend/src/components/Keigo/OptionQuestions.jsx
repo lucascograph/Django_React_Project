@@ -47,7 +47,7 @@ function VocabularyQuestions({onCleared}) {
         const correctAnswer = questions[currentQuestion].correct
 
         if (answer === correctAnswer) {
-            setFeedback("Correct answer!")
+            setFeedback("Correct!")
             setIsCorrect(true)
             setHideButtons(true)
 
@@ -59,7 +59,7 @@ function VocabularyQuestions({onCleared}) {
                     setHideButtons(false)
                 }, 1500)
             } else {
-                setFeedback("Vocabulary section complete!")
+                setFeedback("1/4 Section(s) complete!")
                 setHideButtons(true)
                 setTimeout(() => {
                     setIsCorrect(false)

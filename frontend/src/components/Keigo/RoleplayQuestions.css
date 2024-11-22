@@ -1,0 +1,40 @@
+.instruction-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.instruction {
+    margin-bottom: 10%;
+}
+
+.instruction-container Button {
+    height: 20%;
+    width: 30%;
+}
+
+.roleplay-container {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    height: 60%;
+}
+
+.user-chat {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-top: 15%;
+    gap: 10%;
+}
+
+.cpu-chat {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-top: 5%;
+    gap: 10%;
+}
