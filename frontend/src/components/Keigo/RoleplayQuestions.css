@@ -19,15 +19,16 @@
 .roleplay-container {
     display: flex;
     justify-content: space-between;
-    width: 80%;
+    width: 90%;
     height: 60%;
+    margin-left: 10%;
 }
 
 .user-chat {
     display: flex;
     flex-direction: column;
     width: 50%;
-    margin-top: 15%;
+    margin-top: 8%;
     gap: 10%;
 }
 
@@ -36,5 +37,6 @@
     flex-direction: column;
     width: 50%;
     margin-top: 5%;
+    margin-left: 10%;
     gap: 10%;
 }

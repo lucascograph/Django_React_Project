@@ -1,25 +1,40 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import "./RoleplayQuestions.css"
 import image_1 from "../../images/phonecall_1.jpg"
 import image_3 from "../../images/phonecall_3.jpg"
 import Button from "../Button/Button"
+import RoleplayHelpText from "./RoleplayHelpText"
 
 function RoleplayQuestions({ onCleared }) {
-    const situations = [
+    const instructions = [
         { id: 1, names: ["田中", "中村", "関口"], situation: ["あとで掛けなおすということを伝えてください", "「」という伝言を伝えてください"], image: image_1 },
     ]
 
-    const conversation = [
-            "はい、123株式会社でございます。",
-            "",
-            "申し訳ございませんが、田中はただいま会議中でございます。何か伝言がございましたら、教えてください",
-            "さようでございますか。では、よろしくお願いいたします。",
-            "失礼いたします。"
-        ]
+    const situations = {
+        "Call back": {
+            "はい、123株式会社でございます。": [/^(?:.+株式会社の|株式会社.+の).+?と申します$/],
+            "お世話になっております。": [/^お世話になっております[。、 .]+(?:田中|たなか|タナカ)(?:様|さま|サマ)がいらっしゃいますか$/],
+            "申し訳ございませんが、田中はただいま会議中でございます。何か伝言がございましたら、教えてください": [/^(?:結構です|けっこうです)。(?:後程|後ほど|のちほど)(?:かけ直します|かけなおします|掛け直します|掛けなおします)$/],
+            "さようでございますか。では、よろしくお願いいたします。": [/^失礼します$/],
+            "失礼いたします。": []
+        },
+        "underconstruction": {
 
+        },
+    }
+
+    const helpText = [
+        "Greet with name and company",
+        "reply politely and ask to speak with Tanaka",
+        "Decline + ask when the person will be back",
+        "Let the person know you will call be",
+    ]
 
     const [currentSituation, setCurrentSituation] = useState(0)
-    const [instruction, setInstruction] = useState(`${situations[currentSituation].names[0]}さんに電話をかけ、出られない場合： ${situations[currentSituation].situation[0]}`)
+    const [themes, setThemes] = useState(Object.keys(situations))
+    const [currentTheme, setCurrentTheme] = useState(themes[currentSituation])
+    const [sentences, setSentences] = useState([])
+    const [instruction, setInstruction] = useState("text here")
     const [feedback, setFeedback] = useState("")
     const [isCorrect, setIsCorrect] = useState(false)
     const [hideInputField, setHideInputField] = useState(false)
@@ -27,18 +42,54 @@ function RoleplayQuestions({ onCleared }) {
     const [userInput, setUserInput] = useState("")
     const [userConversation, setUserConversation] = useState([])
 
+    useEffect(() => {
+
+        const newSentences = Object.keys(situations[currentTheme])
+
+        setSentences(newSentences)
+
+    },[currentSituation])
+
     const handleStartClick = () => {
         setInstructionMode(false)
     }
 
+    function checkSentenceInput(userinput, regexcodes) {
+
+        for (const regexPattern of regexcodes){
+            if (regexPattern.test(userinput)){
+                return true
+            } else {
+                return false
+            }
+        }
+
+
+    }
+
     const handleKeyDown = (event) => {
         if (event.key === "Enter") {
-            setUserConversation([...userConversation, userInput])
-            setUserInput("")
+
+            //Here we check the user input string and match it with the regex code from situations
+            if (checkSentenceInput(userInput, situations[currentTheme][sentences[userConversation.length]])){
+                setUserConversation([...userConversation, userInput])
+                setUserInput("")
+            } else {
+                setFeedback("try again")
+                setIsCorrect(false)
+                setHideInputField(true)
+                setTimeout(() => {
+                    setFeedback("")
+                    setHideInputField(false)
+                }, 1500);
+            }
+
         }
     }
 
     return (
+        <>
+        <RoleplayHelpText text={helpText[userConversation.length]}/>
         <div className="question-container">
             {instructionMode ? (
                 <div className="instruction-container">
@@ -52,13 +103,13 @@ function RoleplayQuestions({ onCleared }) {
                 <div className="roleplay-container">
                     <div className="user-chat">
                         {userConversation.map((sentence, index) => (
-                            <div key={index}>{sentence}</div>
+                            <div key={index}>- {sentence}</div>
                         ))}
                     </div>
                     <div className="cpu-chat">
-                        {conversation.map((sentence, index) => (
+                        {sentences.map((sentence, index) => (
                             index < userConversation.length + 1 ?
-                                <div key={index}>{sentence}</div> : null
+                                <div key={index}>- {sentence}</div> : null
                         ))}
                     </div>
                 </div>
@@ -83,6 +134,7 @@ function RoleplayQuestions({ onCleared }) {
                 </>
             )}
         </div>
+        </>
     )
 }
 

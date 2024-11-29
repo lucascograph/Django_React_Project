@@ -1,10 +1,25 @@
-import { useContext, useState } from "react"
+import { useContext, useState, useEffect, useRef } from "react"
 import { FlashcardContext } from "../../../contexts/FlashcardContext"
 import api from "../../../Api"
 import "./ExportImportDeck.css"
 import Button from "../../Button/Button"
 
 export const ExportImportDeck = ( { onButtonClick, position } ) => {
+    const popupRef = useRef(null)
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (popupRef.current && !popupRef.current.contains(event.target)) {
+                onButtonClick(false);
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+        }
+    }, [onButtonClick])
 
     const {
         currentDeck,
@@ -41,7 +56,7 @@ export const ExportImportDeck = ( { onButtonClick, position } ) => {
     }
 
     return (
-        <div className='export-box' style={{left: `${position[0]}px`, top: `${position[1] - 200}px`}}>
+        <div className='export-box' ref={popupRef} style={{left: `${position[0]}px`, top: `${position[1] - 200}px`}}>
             <div className='export-field'>Export {currentDeck?.name}: <span className="export-code">{exportCode}</span></div>
             <div className="import-field">
                 Import: <input className="import-input" onChange={handleInput} placeholder="code here"></input>
