@@ -1,0 +1,43 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+}
+
+.questionnaire {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height: 80vh;
+    width: 60vw;
+    margin-left: 20vw;
+    padding: 25vh 0 10vh 0;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.feedback {
+    height: 10%;
+    font-size: 2rem;
+}
+.correct {
+    color: green;
+}.incorrect {
+    color: red;
+}
+
+.button-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 80%;
+    height: 60%;
+}
+
+.option-buttons {
+    width: 50%;
+    height: 22%;
+    margin: 1%;
+}
+
