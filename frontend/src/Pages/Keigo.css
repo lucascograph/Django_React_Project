@@ -46,6 +46,17 @@
     transform: scale(1.05);
 }
 
+.cleared-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10em;
+    width: 50%;
+    color: #fff;
+    font-size: 2rem;
+    text-shadow: 3px 3px #2e2e2e;
+}
+
 /* .grid-item:hover .overlay {
     background-color: rgba(0, 0, 0, 0.3);
     color: white;

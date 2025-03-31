@@ -99,6 +99,15 @@ const UserForm = ({ method }) => {
                     </div>
                     {error && <p style={{ color: 'red' }}>{error}</p>}
                     <button type="submit">{method === 'register' ? 'Sign Up' : 'Login'}</button>
+                    {method === 'register' && (
+                        <button 
+                            type="button"
+                            onClick={(e) => {
+                                e.preventDefault()
+                                navigate("/login")
+                            }}
+                            style={{"height": "2em", "margin-top": "5%"}}>Back</button>
+                    )}
                     {method === 'login' && (
                         <div>
                             <div className='remember-me'>

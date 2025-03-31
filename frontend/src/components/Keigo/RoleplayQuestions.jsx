@@ -13,13 +13,14 @@ function RoleplayQuestions({ onCleared }) {
     const situations = {
         "Call back": {
             "はい、123株式会社でございます。": [/^(?:.+株式会社の|株式会社.+の).+?と申します$/],
-            "お世話になっております。": [/^お世話になっております[。、 .]+(?:田中|たなか|タナカ)(?:様|さま|サマ)がいらっしゃいますか$/],
-            "申し訳ございませんが、田中はただいま会議中でございます。何か伝言がございましたら、教えてください": [/^(?:結構です|けっこうです)。(?:後程|後ほど|のちほど)(?:かけ直します|かけなおします|掛け直します|掛けなおします)$/],
-            "さようでございますか。では、よろしくお願いいたします。": [/^失礼します$/],
-            "失礼いたします。": []
+            "お世話になっております。": [/^(?:こちらこそ、)?お世話になっております[。、 .]+(?:田中|たなか|タナカ)(?:様|さま|サマ)がいらっしゃいますか$/],
+            "申し訳ございませんが、田中はただいま会議中でございます。何か伝言がございましたら、教えてください": [/^(?:結構です|けっこうです)(?:。|、)(?:お戻り|おもどり|御戻り|ご戻り|ごもどり)は(?:何時|何じ|なん時|なんじ)(?:頃|ごろ)(?:でしょうか|ですか)$/],
+            "おそらく4時半頃になると思います。": [/^(?:承知しました|承知いたしました|承知致しました|しょうちしました|しょうちいたしました|しょうち致しました)(?:。)?(?:後程|後ほど|のちほど)(?:かけ直します|かけなおします|掛け直します|掛けなおします)$/],
+            "かしこまりました。では、よろしくお願いいたします。": [/^(?:お忙|おいそが)しい(?:ところ|中|なか)(?:、| |　)ありがとうございました(?:。|、)(?:それでは、)?(?:失礼|しつれい)(?:します|いたします)(?:、|。)?$/],
+            // "失礼いたします。": []
         },
         "underconstruction": {
-
+            "はい、123株式会社でございます。": [/^(?:.+株式会社の|株式会社.+の).+?と申します$/],
         },
     }
 
@@ -28,6 +29,7 @@ function RoleplayQuestions({ onCleared }) {
         "reply politely and ask to speak with Tanaka",
         "Decline + ask when the person will be back",
         "Let the person know you will call be",
+        "Thank for the call (during busy hours), and say the closing phrase of the call",
     ]
 
     const [currentSituation, setCurrentSituation] = useState(0)
@@ -43,11 +45,8 @@ function RoleplayQuestions({ onCleared }) {
     const [userConversation, setUserConversation] = useState([])
 
     useEffect(() => {
-
         const newSentences = Object.keys(situations[currentTheme])
-
         setSentences(newSentences)
-
     },[currentSituation])
 
     const handleStartClick = () => {
@@ -55,7 +54,6 @@ function RoleplayQuestions({ onCleared }) {
     }
 
     function checkSentenceInput(userinput, regexcodes) {
-
         for (const regexPattern of regexcodes){
             if (regexPattern.test(userinput)){
                 return true
@@ -63,17 +61,27 @@ function RoleplayQuestions({ onCleared }) {
                 return false
             }
         }
-
-
     }
 
     const handleKeyDown = (event) => {
         if (event.key === "Enter") {
+            const expectedResponses = situations[currentTheme][sentences[userConversation.length]]
 
-            //Here we check the user input string and match it with the regex code from situations
-            if (checkSentenceInput(userInput, situations[currentTheme][sentences[userConversation.length]])){
-                setUserConversation([...userConversation, userInput])
+            if (checkSentenceInput(userInput, expectedResponses)){
+                const newUserConversation = [...userConversation, userInput];
+                setUserConversation(newUserConversation)
                 setUserInput("")
+
+                if (newUserConversation.length === sentences.length) {
+                    const nextSituationIndex = currentSituation + 1;
+                    if (nextSituationIndex < themes.length) {
+                        setCurrentSituation(nextSituationIndex);
+                        setCurrentTheme(themes[nextSituationIndex]);
+                        setUserConversation([]);
+                    } else {
+                        onCleared()
+                    }
+                }
             } else {
                 setFeedback("try again")
                 setIsCorrect(false)
@@ -83,7 +91,6 @@ function RoleplayQuestions({ onCleared }) {
                     setHideInputField(false)
                 }, 1500);
             }
-
         }
     }
 

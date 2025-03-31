@@ -8,7 +8,7 @@ import Roleplaysituations from '../../components/Keigo/RoleplayQuestions'
 
 export default function Phonecall() {
 
-    const [currentStage, setCurrentStage ] = useState(3)
+    const [currentStage, setCurrentStage ] = useState(0)
 
     const handleClearedStage = () => {
         setCurrentStage((prev) => prev + 1)
@@ -29,6 +29,11 @@ export default function Phonecall() {
                 )}
                 {currentStage === 3 && (
                     <Roleplaysituations onCleared={handleClearedStage} />
+                )}
+                {currentStage > 3 && (
+                    <div className='cleared-text'>
+                        CONGRATULATIONS YOU DID IT !!!!!
+                    </div>
                 )}
             </div>
         </div>

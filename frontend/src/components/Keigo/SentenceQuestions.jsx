@@ -6,7 +6,7 @@ import image_3 from "../../images/phonecall_3.jpg"
 function SentenceQuestions({ onCleared }) {
     const questions = [
         { id: 1, sentence: "ABC株式会社の田中と言います", normal: ["言います"], formal: [["申します", "もうします", "モウシマス", "moushimasu", "1"]], image: image_1 },
-        { id: 2, sentence: "木村さんがいますか", normal: ["さん", "いますか"], formal: [["様", "さま", "sama", "1"], ["1", "いらっしゃいますか", "イラッシャイマスカ", "irasshaimasuka"]], image: image_3 },
+        { id: 2, sentence: "木村さんがいますか", normal: ["さん", "いますか"], formal: [["様", "さま", "sama"], ["いらっしゃいますか", "イラッシャイマスカ", "irasshaimasuka"]], image: image_3 },
     ]
 
     const [currentQuestion, setCurrentQuestion] = useState(0)
@@ -40,7 +40,12 @@ function SentenceQuestions({ onCleared }) {
                             setCurrentQuestion((prev) => prev + 1)
                         }, 1500)
                     } else {
-                        onCleared()
+                        setFeedback("2/4 Section(s) complete!")
+                        setHideInputField(true)
+                        setTimeout(() => {
+                            setIsCorrect(false)
+                            onCleared()
+                        }, 1500)
                     }
                 }
             } else {

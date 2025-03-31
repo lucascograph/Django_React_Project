@@ -3,6 +3,7 @@ import "./OptionQuestions.css"
 import Button from '../Button/Button'
 import image_1 from "../../images/phonecall_1.jpg"
 import image_2 from "../../images/phonecall_2.jpg"
+import image_3 from "../../images/phonecall_3.jpg"
 
 
 
@@ -11,7 +12,7 @@ function VocabularyQuestions({onCleared}) {
     const init_questions = [
         { id: 1, question: "First time introduction:", options: ["① ABC株式会社の田中さんと申します。", "① ABC株式会社の田中と申します。", "① おはようございます、田中です。", "① もしもし、お疲れ様です。"], correct: "① ABC株式会社の田中と申します。", image: image_1},
         { id: 2, question: "Asking for a person:", options: ["① こちらこそ / ② 木村様はいらっしゃいますか？", "① こちらこそ / ② 木村さんはいらっしゃいますか？", "① そちらこそ / ② 木村さんと話したいんですが..", "① そちらこそ / ② 木村様がいるんでしょうか？"], correct: "① こちらこそ / ② 木村様はいらっしゃいますか？", image: image_2 },
-        { id: 3, question: "I will call back later:", options: ["後ほどかけ直します。", "1", "2", "3"], correct: "後ほどかけ直します。"}
+        { id: 3, question: "I will call back later:", options: ["後ほどかけ直します。", "1", "2", "3"], correct: "後ほどかけ直します。", image: image_3}
     ]
 
 
