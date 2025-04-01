@@ -1,49 +1,32 @@
-.question-container {
+.optionQuestion-container {
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
-    height: 84vh;
-    width: 60vw;
     border-radius: 10px;
-    background-color: rgb(255, 255, 255);
+    background-color: white;
+    padding-bottom: 5vh;
+    box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.4),
+    3px 3px 3px rgba(20, 20, 20, .3) inset;
 }
 
 .image-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 50%;
-    margin-top: 3vh;
-    overflow: hidden;
-}
-.image-container img {
-    width: 90%;
-    object-fit: contain;
+    margin-top: 1vh;
+    background-color: white; 
 }
 
-.feedback {
-    height: 10%;
-    font-size: 2rem;
-}
-.correct {
-    color: green;
-}.incorrect {
-    color: red;
+.image-container img {
+    width: 50vw;
 }
 
 .options {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    width: 60%;
-    height: 35%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1em;
 }
 
-.option-buttons {
-    width: 100%;
-    height: 22%;
-    margin: 1%;
+.options button{
+    height: 2em;
+    width: 35vw;
 }

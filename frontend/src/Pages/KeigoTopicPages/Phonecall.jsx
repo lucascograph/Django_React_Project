@@ -17,7 +17,7 @@ export default function Phonecall() {
     return (
         <div>
             <Navbar />
-            <div className='questionnaire'>
+            <div className='phonecall-questionnaire'>
                 {currentStage === 0 && (
                     <OptionQuestions onCleared={handleClearedStage}/>
                 )}

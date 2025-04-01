@@ -25,3 +25,6 @@ dist-ssr
 
 # Ignore Virtual Environment in root directory
 venv/
+
+# cache
+__pycache__/

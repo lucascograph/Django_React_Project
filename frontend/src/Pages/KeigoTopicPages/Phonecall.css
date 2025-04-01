@@ -1,6 +1,7 @@
-.questionnaire {
+.phonecall-questionnaire {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 4vh;
+    flex-direction: column;
+    margin-top: 3vh;
+    width: 80%;
+    margin-left: 10%;
 }

@@ -1,30 +1,12 @@
-import Button from "../components/Button/Button";
+import Button from "../components/Button/Button"
 import { useEffect, useState } from 'react'
-import { Navbar } from "../components/Navbar/Navbar";
+import { Navbar } from "../components/Navbar/Navbar"
+import bunpo_data from '../data/bunpo_data.json'
 import "./Bunpo.css"
 
-function Bunpo() {
+function Bunpo({onCleared}) {
 
-    const init_questions = [
-        {
-            "id": 0,
-            "question": "その人が成功する（ ）、本人の努力次第です。",
-            "options": ["かというと", "か否かは", "とあって", "そばから"],
-            "correct": "か否かは"
-        },
-        {
-            "id": 5,
-            "question": "先日、川で2メートル（ ）魚を釣った。",
-            "options": ["すらある", "ともある", "だけある", "からある"],
-            "correct": "からある"
-        },
-        {
-        "id": 15,
-        "question": "黒（ ）の男たちに囲まれたかと思うと、彼は車で連れ去られてしまった。",
-        "options": ["まみれ", "っぽい", "ずくめ", "だらけ"],
-        "correct": "だらけ"
-        }
-    ]
+    const init_questions = bunpo_data
 
     const [ currentQuestion, setCurrentQuestion ] = useState(0)
     const [ questions, setShuffledQuestions] = useState(init_questions)
@@ -95,7 +77,7 @@ function Bunpo() {
         <>
         <div className="container">
             <div><Navbar /></div>
-            <div className='questionnaire'>
+            <div className='bunpo-questionnaire'>
                 {!hideButtons ? (
                     <>
                     <div className="feedback">{feedback}</div>
