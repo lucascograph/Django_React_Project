@@ -4,17 +4,19 @@ import Button from '../Button/Button';
 
 
 function VocabularyQuestions({ onCleared, keigoData, images }) {
+
+    const question_data = keigoData
+
+    const questionsWithImages = question_data.map((q, i) => ({
+        ...q,
+        image: images[i]
+    }));
+
     const [currentQuestion, setCurrentQuestion] = useState(0);
-    const [questions, setQuestions] = useState([]);
+    const [questions, setQuestions] = useState(questionsWithImages);
     const [feedback, setFeedback] = useState();
     const [isCorrect, setIsCorrect] = useState(false);
     const [hideButtons, setHideButtons] = useState(false);
-
-    const imageMap = images.reduce((acc, x, i) => {
-        acc[`image_${i + 1}`] = x;
-        return acc;
-    }, {});
-
 
     function shuffleOptions(array) {
         let currentIndex = array.length;
@@ -27,12 +29,6 @@ function VocabularyQuestions({ onCleared, keigoData, images }) {
     }
 
     useEffect(() => {
-        const loadedQuestions = keigoData.map(q => ({
-            ...q,
-            image: imageMap[q.image] 
-        }));
-        setQuestions(loadedQuestions);
-
         setQuestions(prevQuestions =>
             prevQuestions.map(q => ({
                 ...q,

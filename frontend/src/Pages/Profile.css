@@ -32,13 +32,9 @@
     display: flex;
     width: 80%;
 }
-.display-bio .edit-icon {
-    padding-top: 2%;
-    padding-right: 2%;
-}
 .display-text {
     display: flex;
-    word-break: break-all;
+    word-break: break-word;
     width: 100%;
     padding: 1vw;
 }
