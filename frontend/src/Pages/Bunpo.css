@@ -42,3 +42,15 @@
     width: 25vw;
 }
 
+.level-buttons {
+    display: flex;
+    flex-direction: column;
+    margin-top: -8vh;
+    align-items: center;
+    width: 100%;
+    gap: 2vh;
+}
+
+.level-buttons button {
+    height: 8vh;
+}

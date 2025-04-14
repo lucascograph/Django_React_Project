@@ -1,0 +1,61 @@
+{
+    "questions": [
+        {
+            "id": 4,
+            "question": "Greeting coworkers on your first day:",
+            "options": [
+                "① 本日からお世話になります、山田と申します。よろしくお願いいたします。",
+                "① 今日からよろしく、山田です。",
+                "① 初めまして、山田だよ。よろしく。",
+                "① おはようございます、山田です。"
+            ],
+            "correct": "① 本日からお世話になります、山田と申します。よろしくお願いいたします。"
+        }
+    ],
+    "sentence_transformations": [
+        {
+            "id": 3,
+            "sentence": "今日からよろしくお願いします",
+            "normal": [
+                "今日",
+                "よろしくお願いします"
+            ],
+            "formal": [
+                [
+                    "本日",
+                    "ほんじつ",
+                    "honjitsu"
+                ],
+                [
+                    "よろしくお願いいたします",
+                    "ヨロシクオネガイイタシマス",
+                    "yoroshikuonegaiitashimasu"
+                ]
+            ]
+        }
+    ],
+    "sentence_checks": [
+        {
+            "id": 9,
+            "sentence": "本日からお世話になります、山田と申します。よろしくお願いいたします。",
+            "check": "^本日からお世話になります[、、]?[^。]+と申します[。]?よろしくお願いいたします[。]?$",
+            "english": "Greet politely and introduce yourself on the first day:"
+        }
+    ],
+    "roleplay": {
+        "situations": {
+            "First Day at Work": {
+                "（上司）今日からよろしくお願いします。": [
+                    "^本日からお世話になります[、、]?[^。]+と申します[。]?よろしくお願いいたします[。]?$"
+                ],
+                "（同僚）よろしくね。がんばってね！": []
+            }
+        },
+        "help_text": [
+            "Greet coworkers",
+            "Say you will be under their care",
+            "Introduce yourself with your name",
+            "Use polite closing"
+        ]
+    }
+}

@@ -29,6 +29,7 @@ export const Flashcard = () => {
         setIsShowingFront,
         setCurrentCard,
         setClearedCards,
+        addClearedFlashcard,
     } = useContext(FlashcardContext)
 
     const [ showExportCode, setShowExportCode ] = useState(false)
@@ -74,19 +75,24 @@ export const Flashcard = () => {
         }
     }
 
-    const handleEasyClick = () => {
+    const handleEasyClick = async () => {
 
         setIsShowingFront(true)
 
         setClearedCards([...clearedCards, currentCard])
         setLastCardStack([...lastCardStack, currentCard])
 
+        try {
+            const response = await addClearedFlashcard(currentCard.id);  // Use the ID of the current card
+        } catch (error) {
+            console.error("Error adding cleared flashcard:", error);
+        }
+
+
         if (cardList.length > 1) {
             const remainingCards = cardList.filter((card) => card !== currentCard)
-
             const randomIndex = Math.floor(Math.random() * remainingCards.length)
             setCurrentCard(remainingCards[randomIndex])
-
             setCardList(remainingCards)
         } else if (cardList.length === 1) {
             setCardList([])

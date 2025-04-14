@@ -1,0 +1,132 @@
+.profile-page {
+    padding: 5vh 2vw;
+    display: flex;
+    gap: 2vw;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 80vh;
+    width: 22vw;
+    border-radius: 10px;
+    border: 0.1px solid #d1d1d1;
+    background-color: white;
+    box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.4);
+    padding: 3vh 0vw;
+    gap: 2vh;
+    text-align: center;
+}
+
+.user-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 60%;
+    gap: 5vh;
+}
+
+.display-bio {
+    display: flex;
+    width: 80%;
+}
+.display-bio .edit-icon {
+    padding-top: 2%;
+    padding-right: 2%;
+}
+.display-text {
+    display: flex;
+    word-break: break-all;
+    width: 100%;
+    padding: 1vw;
+}
+.display-contact {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 80%;
+    margin-left: 10%;
+}
+.display-contact-object {
+    display: flex;
+    width: 100%;
+}
+.display-label {
+    width: 25%;
+    text-align: left;
+    font-size: 0.8em;
+}
+.display-value {
+    width: 75%;
+    text-align: left;
+    font-size: 0.9em;
+    padding-left: 1vw;
+    font-style: italic;
+}
+
+.edit-bio {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 90%;
+    gap: 1vh;
+}
+.edit-bio-text textarea {
+    border: 1px solid #333;
+    width: 100%;
+    padding: 0.2vw;
+    margin: 0.2vh;
+}
+.edit-contact {
+    display: flex;
+    flex-direction: column;
+}
+.contact-object {
+    display: flex;
+    justify-content: space-between;
+    font-size: small;
+}
+.label {
+    width: 30%;
+    text-align: left;
+}.value {
+    width: 70%;
+}
+.contact-object textarea {
+    width: 100%;
+    border: solid 1px #333;
+    padding: 0vh 0.2vw;
+}
+.edit-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+    margin-top: 3vh;
+    padding: 0vh 0.5vw;
+    height: 5vh;
+}
+.edit-buttons button {
+    border: 1px solid #333;
+    border-radius: 10px;
+    width: 30%;
+    height: 80%;
+    font-size: small;
+}
+
+.progress-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 80vh;
+    width: 60vw;
+    border-radius: 10px;
+    border: 0.1px solid #d1d1d1;
+    background-color: white;
+    box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.4);
+    padding: 3vh 0vw;
+    gap: 2vh;
+    text-align: center;
+}

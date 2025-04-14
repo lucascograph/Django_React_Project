@@ -1,8 +1,8 @@
 .optionQuestion-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    height: 88vh;
     border-radius: 10px;
     background-color: white;
     padding-bottom: 5vh;
@@ -18,15 +18,17 @@
 
 .image-container img {
     width: 50vw;
+    height: 60vh;
 }
 
 .options {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1em;
+    width: 90%;
 }
 
 .options button{
     height: 2em;
-    width: 35vw;
+    width: 100%;
 }

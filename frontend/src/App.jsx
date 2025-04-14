@@ -10,6 +10,7 @@ import Bunpo from "./Pages/Bunpo";
 import Kanji from "./Pages/Kanji";
 import { Flashcard } from "./Pages/Flashcard";
 import NotFound from "./Pages/NotFound";
+import { ProfileProvider } from "./contexts/ProfileContext";
 
 function Logout() {
   localStorage.clear();
@@ -28,7 +29,7 @@ function App() {
   return (
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<ProtectedRoute><Profile /></ProtectedRoute>}/>
+          <Route path="/" element={<ProtectedRoute><FlashcardProvider><ProfileProvider><Profile /></ProfileProvider></FlashcardProvider></ProtectedRoute>}/>
           <Route path="/Flashcard" element={<ProtectedRoute><FlashcardProvider><Flashcard /></FlashcardProvider></ProtectedRoute>}/>
           <Route path="/kanji" element={<ProtectedRoute><Kanji /></ProtectedRoute>}/>
           <Route path="/keigo" element={<ProtectedRoute><Keigo /></ProtectedRoute>} />

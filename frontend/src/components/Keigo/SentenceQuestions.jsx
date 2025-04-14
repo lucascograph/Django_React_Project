@@ -1,16 +1,17 @@
 import { useState } from "react"
 import "./SentenceQuestions.css"
-import image_1 from "../../images/phonecall_1.jpg"
-import image_3 from "../../images/phonecall_3.jpg"
 
-function SentenceQuestions({ onCleared }) {
-    const questions = [
-        { id: 1, sentence: "ABC株式会社の田中と言います", normal: ["言います"], formal: [["申します", "もうします", "モウシマス", "moushimasu", "1"]], image: image_1 },
-        { id: 2, sentence: "木村さんがいますか", normal: ["さん", "いますか"], formal: [["様", "さま", "sama"], ["いらっしゃいますか", "イラッシャイマスカ", "irasshaimasuka"]], image: image_3 },
-    ]
+function SentenceQuestions({ onCleared, keigoData, images }) {
+
+    const questions = keigoData
+
+    const questionsWithImages = questions.map((q, i) => ({
+        ...q,
+        image: images[i]
+    }));
 
     const [currentQuestion, setCurrentQuestion] = useState(0)
-    const [feedback, setFeedback] = useState(questions[currentQuestion].sentence)
+    const [feedback, setFeedback] = useState(questionsWithImages[currentQuestion].sentence)
     const [isCorrect, setIsCorrect] = useState(false)
     const [hideInputField, setHideInputField] = useState(false)
     const [userInput, setUserInput] = useState("")
@@ -18,7 +19,7 @@ function SentenceQuestions({ onCleared }) {
 
     const handleKeyDown = (event) => {
         if (event.key === "Enter") {
-            const currentQuestionData = questions[currentQuestion]
+            const currentQuestionData = questionsWithImages[currentQuestion]
             const targetIndex = currentQuestionData.normal.findIndex(word => !clearedWords.includes(word))
             const correctAnswers = currentQuestionData.formal[targetIndex]
             const currentNormalWord = currentQuestionData.normal[targetIndex]
@@ -29,14 +30,14 @@ function SentenceQuestions({ onCleared }) {
                 setUserInput("")
 
                 if (clearedWords.length + 1 >= currentQuestionData.normal.length) {
-                    if (currentQuestion < questions.length - 1) {
+                    if (currentQuestion < questionsWithImages.length - 1) {
                         setFeedback("Correct!")
                         setHideInputField(true)
                         setTimeout(() => {
                             setIsCorrect(false)
                             setHideInputField(false)
                             setClearedWords([])
-                            setFeedback(questions[currentQuestion + 1].sentence)
+                            setFeedback(questionsWithImages[currentQuestion + 1].sentence)
                             setCurrentQuestion((prev) => prev + 1)
                         }, 1500)
                     } else {
@@ -64,23 +65,23 @@ function SentenceQuestions({ onCleared }) {
     return (
     <div className="question-container">
         <div className="image-container">
-            <img src={questions[currentQuestion].image} alt="topic-image" />
+            <img src={questionsWithImages[currentQuestion].image} alt="topic-image" />
         </div>
         Change to formal:
         {!hideInputField ? (
             <>
                 <div className="feedback">
                     {
-                        questions[currentQuestion].sentence
-                            .split(new RegExp(`(${questions[currentQuestion].normal.join("|")})`))
+                        questionsWithImages[currentQuestion].sentence
+                            .split(new RegExp(`(${questionsWithImages[currentQuestion].normal.join("|")})`))
                             .map((part, index) => {
-                                const targetIndex = questions[currentQuestion].normal.indexOf(part)
+                                const targetIndex = questionsWithImages[currentQuestion].normal.indexOf(part)
                                 if (clearedWords.includes(part) && targetIndex !== -1) {
-                                    const formalWord = questions[currentQuestion].formal[targetIndex][0]
+                                    const formalWord = questionsWithImages[currentQuestion].formal[targetIndex][0]
                                     return (
                                         <span key={index} className="text-green-500">{formalWord}</span>
                                     );
-                                } else if (part === questions[currentQuestion].normal.find(word => !clearedWords.includes(word))) {
+                                } else if (part === questionsWithImages[currentQuestion].normal.find(word => !clearedWords.includes(word))) {
                                     return (
                                         <span key={index} className="underline text-red-500">{part}</span>
                                     );

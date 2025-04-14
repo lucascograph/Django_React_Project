@@ -1,10 +1,10 @@
-from rest_framework import generics, status
+from rest_framework import generics, status, views
 from rest_framework.response import Response
-from .serializers import UserSerializer, FlashcardSerializer, DeckSerializer
+from .serializers import UserSerializer, FlashcardSerializer, DeckSerializer, UserProgressSerializer, ClearedFlashcardSerializer, UserProfileSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.decorators import api_view
-from .models import Flashcard, Deck, CustomUser
-from .kanji_api import check_kanji
+from .models import Flashcard, Deck, CustomUser, UserProgress, ClearedFlashcard
+from django.utils import timezone
+import os, shutil
 
 class CreateUser(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
@@ -119,3 +119,83 @@ class DuplicateDeck(generics.CreateAPIView):
 
         except Deck.DoesNotExist:
             return Response({"detail": "Deck not found."}, status=404)
+
+class UserProfileView(views.APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        serializer = UserProfileSerializer(request.user)
+        return Response(serializer.data)
+
+    def patch(self, request):
+        user = request.user
+        new_image = request.FILES.get('profile_image')
+
+        if new_image and user.profile_image:
+            user_folder = os.path.dirname(user.profile_image.path)
+            if os.path.exists(user_folder):
+                try:
+                    shutil.rmtree(user_folder)
+                    print(f"Deleted folder: {user_folder}")
+                except Exception as e:
+                    print(f"Error deleting user folder: {e}")
+        # If only bio is edited (No new image in patch request)
+        if not new_image:
+            request.data._mutable = True
+            request.data.pop('profile_image', None)
+            request.data._mutable = False
+
+        serializer = UserProfileSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+
+class TodayProgressView(views.APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        today = timezone.now().date()
+        progress, _ = UserProgress.objects.get_or_create(user=request.user, date=today)
+        serializer = UserProgressSerializer(progress)
+        return Response(serializer.data)
+
+class AddClearedFlashcardView(views.APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        flashcard_id = request.data.get("flashcardId")
+        if not flashcard_id:
+            return Response({"error": "flashcard_id is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            flashcard = Flashcard.objects.get(id=flashcard_id)
+        except Flashcard.DoesNotExist:
+            return Response({"error": "Flashcard not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        today = timezone.now().date()
+        progress, _ = UserProgress.objects.get_or_create(user=request.user, date=today)
+
+        # Check if flashcard already marked as cleared
+        if ClearedFlashcard.objects.filter(progress=progress, flashcard=flashcard).exists():
+            return Response({"message": "Flashcard already cleared today."}, status=status.HTTP_200_OK)
+
+        cleared = ClearedFlashcard.objects.create(progress=progress, flashcard=flashcard)
+        serializer = ClearedFlashcardSerializer(cleared)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+class ListClearedFlashcardsView(views.APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        today = timezone.now().date()
+        
+        try:
+            progress = UserProgress.objects.get(user=request.user, date=today)
+        except UserProgress.DoesNotExist:
+            return Response({"error": "No progress found for today."}, status=status.HTTP_404_NOT_FOUND)
+        
+        cleared_flashcards = ClearedFlashcard.objects.filter(progress=progress)
+
+        serializer = ClearedFlashcardSerializer(cleared_flashcards, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

@@ -5,32 +5,35 @@ import image_3 from "../../images/phonecall_3.jpg"
 import Button from "../Button/Button"
 import RoleplayHelpText from "./RoleplayHelpText"
 
-function RoleplayQuestions({ onCleared }) {
+function RoleplayQuestions({ onCleared, keigoData, images }) {
     const instructions = [
         { id: 1, names: ["田中", "中村", "関口"], situation: ["あとで掛けなおすということを伝えてください", "「」という伝言を伝えてください"], image: image_1 },
     ]
 
-    const situations = {
-        "Call back": {
-            "はい、123株式会社でございます。": [/^(?:.+株式会社の|株式会社.+の).+?と申します$/],
-            "お世話になっております。": [/^(?:こちらこそ、)?お世話になっております[。、 .]+(?:田中|たなか|タナカ)(?:様|さま|サマ)がいらっしゃいますか$/],
-            "申し訳ございませんが、田中はただいま会議中でございます。何か伝言がございましたら、教えてください": [/^(?:結構です|けっこうです)(?:。|、)(?:お戻り|おもどり|御戻り|ご戻り|ごもどり)は(?:何時|何じ|なん時|なんじ)(?:頃|ごろ)(?:でしょうか|ですか)$/],
-            "おそらく4時半頃になると思います。": [/^(?:承知しました|承知いたしました|承知致しました|しょうちしました|しょうちいたしました|しょうち致しました)(?:。)?(?:後程|後ほど|のちほど)(?:かけ直します|かけなおします|掛け直します|掛けなおします)$/],
-            "かしこまりました。では、よろしくお願いいたします。": [/^(?:お忙|おいそが)しい(?:ところ|中|なか)(?:、| |　)ありがとうございました(?:。|、)(?:それでは、)?(?:失礼|しつれい)(?:します|いたします)(?:、|。)?$/],
-            // "失礼いたします。": []
-        },
-        "underconstruction": {
-            "はい、123株式会社でございます。": [/^(?:.+株式会社の|株式会社.+の).+?と申します$/],
-        },
-    }
+    // const situations = {
+    //     "Call back": {
+    //         "はい、123株式会社でございます。": [/^(?:.+株式会社の|株式会社.+の).+?と申します$/],
+    //         "お世話になっております。": [/^(?:こちらこそ、)?お世話になっております[。、 .]+(?:田中|たなか|タナカ)(?:様|さま|サマ)がいらっしゃいますか$/],
+    //         "申し訳ございませんが、田中はただいま会議中でございます。何か伝言がございましたら、教えてください": [/^(?:結構です|けっこうです)(?:。|、)(?:お戻り|おもどり|御戻り|ご戻り|ごもどり)は(?:何時|何じ|なん時|なんじ)(?:頃|ごろ)(?:でしょうか|ですか)$/],
+    //         "おそらく4時半頃になると思います。": [/^(?:承知しました|承知いたしました|承知致しました|しょうちしました|しょうちいたしました|しょうち致しました)(?:。)?(?:後程|後ほど|のちほど)(?:かけ直します|かけなおします|掛け直します|掛けなおします)$/],
+    //         "かしこまりました。では、よろしくお願いいたします。": [/^(?:お忙|おいそが)しい(?:ところ|中|なか)(?:、| |　)ありがとうございました(?:。|、)(?:それでは、)?(?:失礼|しつれい)(?:します|いたします)(?:、|。)?$/],
+    //         // "失礼いたします。": []
+    //     },
+    //     "underconstruction": {
+    //         "はい、123株式会社でございます。": [/^(?:.+株式会社の|株式会社.+の).+?と申します$/],
+    //     },
+    // }
 
-    const helpText = [
-        "Greet with name and company",
-        "reply politely and ask to speak with Tanaka",
-        "Decline + ask when the person will be back",
-        "Let the person know you will call be",
-        "Thank for the call (during busy hours), and say the closing phrase of the call",
-    ]
+    // const helpText = [
+    //     "Greet with name and company",
+    //     "reply politely and ask to speak with Tanaka",
+    //     "Decline + ask when the person will be back",
+    //     "Let the person know you will call be",
+    //     "Thank for the call (during busy hours), and say the closing phrase of the call",
+    // ]
+
+    const situations = keigoData["situations"]
+    const helpText = keigoData["help_text"]
 
     const [currentSituation, setCurrentSituation] = useState(0)
     const [themes, setThemes] = useState(Object.keys(situations))
@@ -55,7 +58,8 @@ function RoleplayQuestions({ onCleared }) {
 
     function checkSentenceInput(userinput, regexcodes) {
         for (const regexPattern of regexcodes){
-            if (regexPattern.test(userinput)){
+            const formattedRegexPattern = new RegExp(regexPattern);
+            if (formattedRegexPattern.test(userinput)){
                 return true
             } else {
                 return false

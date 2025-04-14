@@ -12,7 +12,7 @@
 }
 
 .popup-text {
-    margin: 20px;
+    margin: 1em;
     text-overflow: clip;
 }
 
@@ -20,4 +20,7 @@
     height: 5vh;
     width: 60%;
     font-size: small;
+}
+.popup-buttons button {
+    height: 1.5em;
 }

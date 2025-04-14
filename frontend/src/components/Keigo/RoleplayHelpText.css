@@ -6,6 +6,7 @@
     left: 2vw;
     height: 50vh;
     width: 15vw;
+    margin-top: 20vh;
 }
 
 .help-container Button {
@@ -19,4 +20,6 @@
     margin-top: 3%;
     border-radius: 10px;
     background-color: white;
+    padding: 1vw;
+    border: 0.5px solid #bdbdbd;
 }

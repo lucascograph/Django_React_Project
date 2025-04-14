@@ -27,4 +27,4 @@ dist-ssr
 venv/
 
 # cache
-__pycache__/
+**/__pycache__/

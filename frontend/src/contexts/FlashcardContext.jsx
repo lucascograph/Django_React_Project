@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from 'react'
 import api from '../Api'
+import dayjs from 'dayjs'
 
 export const FlashcardContext = createContext()
 
@@ -16,6 +17,8 @@ export const FlashcardProvider = ({ children }) => {
     const [ exportCode, setExportCode ] = useState("")
     const [ lastCardStack, setLastCardStack ] = useState([])
     const [ hardCards, setHardCards ] = useState([])
+    const [ userProgressId, setUserProgressId ] = useState(null)
+
 
     useEffect(() => {
         const fetchDecks = async () => {
@@ -62,6 +65,44 @@ export const FlashcardProvider = ({ children }) => {
     setClearedCards([])
   }, [currentDeck])
 
+  const ensureTodayProgress = async () => {
+    try {
+      const response = await api.get("api/progress/today/")
+      setUserProgressId(response.data.id)
+      return response.data.id
+    } catch (error) {
+      console.error("Error creating or getting progress:", error)
+    }
+  }
+
+  const addClearedFlashcard = async (flashcardId) => {
+    try {
+      const progressId = userProgressId || await ensureTodayProgress()
+
+      const response = await api.post("api/progress/cleared/flashcard/", {
+        progress_id: progressId,
+        flashcardId: flashcardId,
+      })
+
+      return response.data
+    } catch (error) {
+      console.error("Error adding cleared flashcard:", error)
+    }
+  }
+
+  const fetchClearedFlashcards = async () => {
+    try {
+      const today = dayjs().format("YYYY-MM-DD")
+      const response = await api.get(`api/progress/cleared/list/`, {date: today})
+
+      const cardIds = response.data.map(item => item.flashcard)
+      setClearedCards(cardIds)
+      return cardIds
+    } catch (error) {
+      console.error("Error fetching cleared flashcards:", error)
+    }
+  }
+
   const value = {
     isCreatingFlashcard,
     isEditingFlashcard,
@@ -86,6 +127,9 @@ export const FlashcardProvider = ({ children }) => {
     setClearedCards,
     setRefreshDecks,
     setExportCode,
+    addClearedFlashcard,
+    ensureTodayProgress,
+    fetchClearedFlashcards,
   }
 
   return (

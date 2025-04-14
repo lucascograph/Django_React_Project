@@ -3,7 +3,7 @@ import "./FullSentenceQuestions.css"
 import image_1 from "../../images/phonecall_1.jpg"
 import image_3 from "../../images/phonecall_3.jpg"
 
-function FullSentenceQuestions({ onCleared }) {
+function FullSentenceQuestions({ onCleared, keigoData, images }) {
     const questions = [
         { id: 1, sentence: "ABC株式会社の田中と申します", check: /^(?:.+株式会社の|株式会社.+の).+?と申します$/, english: "Introduce yourself (with a company name):", image: image_1 },
         { id: 2, sentence: "木村様がいらっしゃいますか", check: /^.+?(?:様|さま|サマ)がいらっしゃいますか$/, english: "Ask to speak with someone:", image: image_3 },

@@ -1,28 +1,32 @@
 .drawing-board-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  margin-top: 20px;
+    display: flex;
+    align-items: center;
+    margin-left: 30vw;
 }
 
 canvas {
-  border: 2px solid black;
+    border: 2px solid black;
+    background-color: white;
+    cursor: crosshair;
+}
+
+.canvas-bottons {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1vw;
+    gap: 1vh;
+}
+.canvas-bottons button {
+    width: 10vw;
+    height: 10vh;
+}
+
+.kanji-page {
+  text-align: center;
+  padding: 20px;
+}
+
+#kanji-canvas {
   background-color: white;
   cursor: crosshair;
-}
-
-button {
-  padding: 8px 16px;
-  font-size: 16px;
-  background-color: #3498db;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-button:hover {
-  background-color: #2980b9;
 }

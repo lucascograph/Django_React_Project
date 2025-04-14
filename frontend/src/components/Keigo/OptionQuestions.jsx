@@ -1,24 +1,20 @@
 import { useEffect, useState } from 'react';
 import "./OptionQuestions.css";
 import Button from '../Button/Button';
-import image_1 from "../../images/phonecall_1.jpg";
-import image_2 from "../../images/phonecall_2.jpg";
-import image_3 from "../../images/phonecall_3.jpg";
 
-import keigoData from '../../data/keigo_data.json';
 
-const imageMap = {
-    "image_1": image_1,
-    "image_2": image_2,
-    "image_3": image_3
-};
-
-function VocabularyQuestions({ onCleared }) {
+function VocabularyQuestions({ onCleared, keigoData, images }) {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [questions, setQuestions] = useState([]);
     const [feedback, setFeedback] = useState();
     const [isCorrect, setIsCorrect] = useState(false);
     const [hideButtons, setHideButtons] = useState(false);
+
+    const imageMap = images.reduce((acc, x, i) => {
+        acc[`image_${i + 1}`] = x;
+        return acc;
+    }, {});
+
 
     function shuffleOptions(array) {
         let currentIndex = array.length;
@@ -31,7 +27,7 @@ function VocabularyQuestions({ onCleared }) {
     }
 
     useEffect(() => {
-        const loadedQuestions = keigoData.questions.map(q => ({
+        const loadedQuestions = keigoData.map(q => ({
             ...q,
             image: imageMap[q.image] 
         }));
@@ -88,7 +84,7 @@ function VocabularyQuestions({ onCleared }) {
                     <div className="feedback">{feedback}</div>
                     <div className="options">
                         {questions[currentQuestion]?.options.map((option, index) => (
-                            <Button className="option-buttons" key={index} onClick={() => handleAnswerClick(option)}>
+                            <Button standard className="option-buttons" key={index} onClick={() => handleAnswerClick(option)}>
                                 {option}
                             </Button>
                         ))}

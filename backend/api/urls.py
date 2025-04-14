@@ -11,5 +11,8 @@ urlpatterns = [
     path("deck/list/", views.ListDecks.as_view(), name="list-decks"),
     path('deck/share/<uuid:code>/', views.RetrieveDeckByCode.as_view(), name='share-deck'),
     path('deck/duplicate/', views.DuplicateDeck.as_view(), name='duplicate-deck'),
-
+    path("progress/today/", views.TodayProgressView.as_view(), name="today-progress"),
+    path("progress/cleared/flashcard/", views.AddClearedFlashcardView.as_view(), name="add-cleared-flashcard"),
+    path('progress/cleared/list/', views.ListClearedFlashcardsView.as_view(), name='list-cleared-flashcards'),
+    path('profile/', views.UserProfileView.as_view(), name='user-profile'),
 ]
