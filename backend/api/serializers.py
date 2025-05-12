@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from .models import Flashcard, Deck, CustomUser, UserProgress, ClearedFlashcard
+from .models import Flashcard, Deck, CustomUser, UserProgress, ClearedFlashcard, Bunpo, ClearedBunpo
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -61,3 +61,17 @@ class UserProgressSerializer(serializers.ModelSerializer):
         for item in cleared_data:
             ClearedFlashcard.objects.create(progress=progress, **item)
         return progress
+
+class BunpoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bunpo
+        fields = ['id', 'jlpt_level', 'question', 'options', 'correct']
+
+class ClearedBunpoSerializer(serializers.ModelSerializer):
+    bunpo = BunpoSerializer()
+
+    class Meta:
+        model = ClearedBunpo
+        fields = ['id', 'bunpo']
+
+

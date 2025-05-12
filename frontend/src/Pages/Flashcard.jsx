@@ -83,11 +83,10 @@ export const Flashcard = () => {
         setLastCardStack([...lastCardStack, currentCard])
 
         try {
-            const response = await addClearedFlashcard(currentCard.id);  // Use the ID of the current card
+            const response = await addClearedFlashcard(currentCard.id)
         } catch (error) {
-            console.error("Error adding cleared flashcard:", error);
+            console.error("Error adding cleared flashcard:", error)
         }
-
 
         if (cardList.length > 1) {
             const remainingCards = cardList.filter((card) => card !== currentCard)

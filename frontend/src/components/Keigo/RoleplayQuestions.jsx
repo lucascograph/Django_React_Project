@@ -39,7 +39,7 @@ function RoleplayQuestions({ onCleared, keigoData, images }) {
     const [themes, setThemes] = useState(Object.keys(situations))
     const [currentTheme, setCurrentTheme] = useState(themes[currentSituation])
     const [sentences, setSentences] = useState([])
-    const [instruction, setInstruction] = useState("text here")
+    const [instruction, setInstruction] = useState("Ask to speak to 田中さん and say that you will call back later if he is not available.")
     const [feedback, setFeedback] = useState("")
     const [isCorrect, setIsCorrect] = useState(false)
     const [hideInputField, setHideInputField] = useState(false)

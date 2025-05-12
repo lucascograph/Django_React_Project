@@ -34,7 +34,7 @@ function App() {
           <Route path="/kanji" element={<ProtectedRoute><Kanji /></ProtectedRoute>}/>
           <Route path="/keigo" element={<ProtectedRoute><Keigo /></ProtectedRoute>} />
           <Route path="/keigo/:topic" element={<ProtectedRoute><KeigoTopic /></ProtectedRoute>} />
-          <Route path="/bunpo" element={<ProtectedRoute><Bunpo /></ProtectedRoute>}/>
+          <Route path="/bunpo" element={<ProtectedRoute><ProfileProvider><Bunpo /></ProfileProvider></ProtectedRoute>}/>
           <Route path="/register" element={<RegisterAndLogout />} />
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />

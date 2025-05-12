@@ -56,7 +56,7 @@ export const ExportImportDeck = ( { onButtonClick, position } ) => {
     }
 
     return (
-        <div className='export-box' ref={popupRef} style={{left: `${position[0]}px`, top: `${position[1] - 200}px`}}>
+        <div className='export-box' ref={popupRef} style={{left: `${position[0]}px`, top: `${position[1] - 150}px`}}>
             <div className='export-field'>Export {currentDeck?.name}: <span className="export-code">{exportCode}</span></div>
             <div className="import-field">
                 Import: <input className="import-input" onChange={handleInput} placeholder="code here"></input>

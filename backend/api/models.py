@@ -50,3 +50,22 @@ class ClearedFlashcard(models.Model):
     
     class Meta:
         unique_together = ('progress', 'flashcard') 
+
+class Bunpo(models.Model):
+    jlpt_level = models.CharField(max_length=2)
+    question = models.TextField()
+    options = models.JSONField()
+    correct = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f"{self.jlpt_level.upper()} - {self.question[:40]}..."
+
+class ClearedBunpo(models.Model):
+    progress = models.ForeignKey(UserProgress, on_delete=models.CASCADE, related_name='cleared_grammar')
+    bunpo = models.ForeignKey(Bunpo, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('progress', 'bunpo')
+
+    def __str__(self):
+        return f"{self.progress.user.username} cleared {self.bunpo.title}"

@@ -1,11 +1,15 @@
 import Button from "../components/Button/Button"
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { Navbar } from "../components/Navbar/Navbar"
 import bunpo_data from '../data/bunpo_data.json'
 import "./Bunpo.css"
-import api from "../Api"
+import { ProfileContext } from "../contexts/ProfileContext"
 
 function Bunpo() {
+
+    const {
+            addClearedBunpo,
+        } = useContext(ProfileContext)
 
     const bunpo_questions = bunpo_data
 
@@ -15,17 +19,28 @@ function Bunpo() {
     const [ isCorrect, setIsCorrect ] = useState(false)
     const [ hideButtons, setHideButtons ] = useState(false)
     const [ levelSet, setLevelSet ] = useState(false)
+    const [ level, setLevel ] = useState("")
 
     const levels = ["n1", "n2", "n3", "n4", "n5"]
 
-    const registerClearedQuestion = async (questionId) => {
-        const response = await api.post("api/cleared/bunpo/", {
-            questionId: questionId
-        })
-    }
+    // const createQuestion = async () => {
+    //     const options = questions[currentQuestion].options
+    //     const questionData = {
+    //         jlpt_level: level,
+    //         question: questions[currentQuestion].question,
+    //         options: options,
+    //         correct: questions[currentQuestion].correct
+    //     }
+    //     console.log(questionData)
+
+    //     const response = await api.post("api/bunpo/create/", questionData)
+
+    //     console.log(response)
+    // }
 
     const handleSetLevelClick = (selectedLevel) => {
         const selectedLevelQuestions = bunpo_questions[selectedLevel];
+        setLevel(selectedLevel)
 
         const shuffleArray = (array) => {
             let shuffled = [...array];
@@ -48,11 +63,19 @@ function Bunpo() {
         setLevelSet(true)
     };
 
-    const handleAnswerClick = (answer) => {
+    const handleAnswerClick = async (answer) => {
         const correctAnswer = questions[currentQuestion].correct
 
         if (answer === correctAnswer) {
             setFeedback("Correct!")
+            
+            try {
+                await addClearedBunpo(questions[currentQuestion].id)
+            } catch (error) {
+                console.error("Error adding cleared flashcard:", error)
+            }
+
+            // createQuestion()
             setIsCorrect(true)
             setHideButtons(true)       
 

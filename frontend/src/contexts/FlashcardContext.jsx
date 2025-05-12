@@ -93,7 +93,7 @@ export const FlashcardProvider = ({ children }) => {
   const fetchClearedFlashcards = async () => {
     try {
       const today = dayjs().format("YYYY-MM-DD")
-      const response = await api.get(`api/progress/cleared/list/`, {date: today})
+      const response = await api.get(`api/progress/cleared/flashcard/list/`, {date: today})
 
       const cardIds = response.data.map(item => item.flashcard)
       setClearedCards(cardIds)

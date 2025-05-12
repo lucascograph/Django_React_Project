@@ -1,8 +1,8 @@
 from rest_framework import generics, status, views
 from rest_framework.response import Response
-from .serializers import UserSerializer, FlashcardSerializer, DeckSerializer, UserProgressSerializer, ClearedFlashcardSerializer, UserProfileSerializer
+from .serializers import UserSerializer, FlashcardSerializer, DeckSerializer, UserProgressSerializer, ClearedFlashcardSerializer, UserProfileSerializer, BunpoSerializer, ClearedBunpoSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from .models import Flashcard, Deck, CustomUser, UserProgress, ClearedFlashcard
+from .models import Flashcard, Deck, CustomUser, UserProgress, ClearedFlashcard, Bunpo, ClearedBunpo
 from django.utils import timezone
 import os, shutil
 
@@ -198,4 +198,79 @@ class ListClearedFlashcardsView(views.APIView):
         cleared_flashcards = ClearedFlashcard.objects.filter(progress=progress)
 
         serializer = ClearedFlashcardSerializer(cleared_flashcards, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class CreateBunpo(generics.CreateAPIView):
+    queryset = Bunpo.objects.all()
+    serializer_class = BunpoSerializer
+    permission_classes = [IsAuthenticated]
+
+class ListBunpo(generics.ListAPIView):
+    queryset = Bunpo.objects.all()
+    serializer_class = BunpoSerializer
+    permission_classes = [IsAuthenticated]
+
+class RetrieveBunpo(generics.RetrieveAPIView):
+    queryset = Bunpo.objects.all()
+    serializer_class = BunpoSerializer
+    permission_classes = [IsAuthenticated]
+
+class UpdateBunpo(generics.UpdateAPIView):
+    queryset = Bunpo.objects.all()
+    serializer_class = BunpoSerializer
+    permission_classes = [IsAuthenticated]
+
+class DeleteBunpo(generics.DestroyAPIView):
+    queryset = Bunpo.objects.all()
+    serializer_class = BunpoSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def delete(self, request, *args, **kwargs):
+        bunpo_id = kwargs.get('id')
+        try:
+            bunpo = Bunpo.objects.get(id=bunpo_id)
+            bunpo.delete()
+            return Response({"detail": f"Successfully deleted '{bunpo.question[:40]}'"}, status=status.HTTP_204_NO_CONTENT)
+        except Bunpo.DoesNotExist:
+            return Response({"detail": "Bunpo not found."}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+class AddClearedBunpoView(views.APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        bunpo_id = request.data.get("bunpoId")
+        if not bunpo_id:
+            return Response({"error": "bunpo_id is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            bunpo = Bunpo.objects.get(id=bunpo_id)
+        except Bunpo.DoesNotExist:
+            return Response({"error": "Bunpo not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        today = timezone.now().date()
+        progress, _ = UserProgress.objects.get_or_create(user=request.user, date=today)
+
+        if ClearedBunpo.objects.filter(progress=progress, bunpo=bunpo).exists():
+            return Response({"message": "Bunpo already cleared today."}, status=status.HTTP_200_OK)
+
+        cleared = ClearedBunpo.objects.create(progress=progress, bunpo=bunpo)
+        serializer = ClearedBunpoSerializer(cleared)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+class ListClearedBunposView(views.APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        today = timezone.now().date()
+        
+        try:
+            progress = UserProgress.objects.get(user=request.user, date=today)
+        except UserProgress.DoesNotExist:
+            return Response({"error": "No progress found for today."}, status=status.HTTP_404_NOT_FOUND)
+        
+        cleared_bunpos = ClearedBunpo.objects.filter(progress=progress)
+
+        serializer = ClearedBunpoSerializer(cleared_bunpos, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

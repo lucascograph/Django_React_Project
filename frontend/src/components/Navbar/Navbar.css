@@ -48,3 +48,38 @@
     font-size: 0.8rem;
     margin-right: 3vw;
 }
+
+.kanji-dropdown {
+    position: relative;
+}
+
+.kanji-dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: white;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  top: 100%;
+  left: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+.kanji-dropdown-menu li {
+  padding: 10px 20px;
+  white-space: nowrap;
+}
+
+.kanji-dropdown-menu li a {
+  color: black;
+  text-decoration: none;
+}
+
+.kanji-dropdown-menu li:hover {
+  background-color: #f0f0f0;
+}
+
+.kanji-dropdown:hover .dropdown-menu {
+  display: block;
+}

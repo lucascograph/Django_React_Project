@@ -1,24 +1,26 @@
 import { Navbar } from "../components/Navbar/Navbar"
 import { useState, useEffect, useContext, useRef } from "react"
 import Button from "../components/Button/Button"
-import { FlashcardContext } from '../contexts/FlashcardContext'
 import { ProfileContext } from '../contexts/ProfileContext'
-import { CiEdit } from "react-icons/ci";
 import "./Profile.css"
 
 function Profile() {
-    const {
-        ensureTodayProgress,
-        fetchClearedFlashcards,
-    } = useContext(FlashcardContext)
 
     const {
         profileData,
+        clearedCards,
+        clearedBunpo,
         editProfileInfo,
+        ensureTodayProgress,
+        addClearedFlashcard,
+        fetchClearedFlashcards,
+        addClearedBunpo,
+        fetchClearedBunpos,
     } = useContext(ProfileContext)
 
     const [progressId, setProgressId] = useState(null)
     const [clearedCardIds, setClearedCardIds] = useState([])
+    const [clearedBunpoIds, setClearedBunpoIds] = useState([])
 
     const [bio, setBio] = useState(profileData?.bio || "")
     const [email, setEmail] = useState(profileData?.email || "")
@@ -33,8 +35,10 @@ function Profile() {
         const fetchData = async () => {
             const id = await ensureTodayProgress()
             setProgressId(id)
-            const list = await fetchClearedFlashcards()
-            setClearedCardIds(list)
+            const cardList = await fetchClearedFlashcards()
+            setClearedCardIds(cardList)
+            const bunpoList = await fetchClearedBunpos()
+            setClearedBunpoIds(bunpoList)
         }
 
         fetchData()
@@ -44,7 +48,6 @@ function Profile() {
         setBio(profileData?.bio || "")
         setEmail(profileData?.email || "")
         setPhone(profileData?.phone || "")
-        console.log(profileData)
     }, [profileData])
 
     const handleImageClick = () => {
@@ -162,7 +165,8 @@ function Profile() {
                     </div>
                 </div>
                 <div className="progress-info">
-                    <div>✅ Cleared Cards Today: {clearedCardIds.length}</div>
+                    <div>✅ Cleared Cards Today: {clearedCardIds?.length}</div>
+                    <div>✅ Cleared Grammar Today: {clearedBunpoIds?.length}</div>
                 </div>
             </div>
         </div>
