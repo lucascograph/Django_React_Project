@@ -10,7 +10,8 @@ JLPTレベルごとの文法やビジネス日本語のロールプレイ、フ�
 ### その他：
 - HTML / CSS / JavaScript
 - Git（バージョン管理）
-- VS Code（開発用ツール）
+- Rest Framework
+- JWT (Json Web Tokens)
 
 ## 課題 / 工夫
 
