@@ -9,8 +9,9 @@ JLPTレベルごとの文法やビジネス日本語のロールプレイ、フ�
 - データベース：SQLiteを使用し、ユーザ情報、フラッシュカード、クイズデータなどを保存しています。
 ### その他：
 - HTML / CSS / JavaScript
+- react-router-dom
 - Git（バージョン管理）
-- Rest Framework
+- Rest framework
 - JWT (Json Web Tokens)
 
 ## 課題 / 工夫
