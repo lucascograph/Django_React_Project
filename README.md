@@ -44,12 +44,17 @@ JLPTレベルごとの文法やビジネス日本語のロールプレイ、フ�
 <table>
   <tr>
     <td><img src="images/login.png" width="250px"><br><sub>ログイン画面</sub></td>
+    <td><img src="images/profile.png" width="250px"><br><sub>プロフィール</sub></td>
     <td><img src="images/flashcard.png" width="250px"><br><sub>フラッシュカード</sub></td>
-    <td><img src="images/quiz.png" width="250px"><br><sub>文法クイズ</sub></td>
   </tr>
   <tr>
-    <td><img src="images/keigo.png" width="250px"><br><sub>敬語変換</sub></td>
+    <td><img src="images/keigo1.png" width="250px"><br><sub>ロールプレイ1</sub></td>
+    <td><img src="images/keigo2.png" width="250px"><br><sub>ロールプレイ2</sub></td>
+    <td><img src="images/keigo3.png" width="250px"><br><sub>ロールプレイ3</sub></td>
+  </tr>
+  <tr>
     <td><img src="images/roleplay.png" width="250px"><br><sub>ロールプレイ</sub></td>
-    <td><img src="images/profile.png" width="250px"><br><sub>プロフィール</sub></td>
+    <td><img src="images/level.png" width="250px"><br><sub>レベル選択</sub></td>
+    <td><img src="images/grammar.png" width="250px"><br><sub>文法</sub></td>
   </tr>
 </table>
