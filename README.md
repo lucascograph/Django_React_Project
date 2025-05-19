@@ -30,7 +30,26 @@ JLPTレベルごとの文法やビジネス日本語のロールプレイ、フ�
 - **フロントエンドとバックエンドの通信**
 <br>React（フロントエンド） と Django（バックエンド） の間にデータを受送信するために、Axios ライブラリを使用。
 <br>GET / POST / PUT / DELETE のAPI呼び出しで、データをやり取りします。
-- 
+- 文法クイズ機能（選択式）
+<br>React の useState、useEffect、useContext などのフックを活用して実装。
+<br>クイズの内容は JSON ファイルから読み込み、ユーザーの選択に応じて結果を表示します。
+- 敬語変換練習ページ
+<br>一般的な単語（例：「言います」）を敬語（例：「申します」）に変換する練習ページを実装。
+<br>正解チェックには正規表現（RegExp）を使い、入力が正しいか判定します。
+- ビジネス日本語ロールプレイ機能
+<br>画像付きのシチュエーションを用意し、ユーザーがセリフを入力。
+<br>正解の形式を正規表現で判定し、自然な敬語表現が使えているかチェックできます。
 
 ## デモ
-
+<table>
+  <tr>
+    <td><img src="images/login.png" width="250px"><br><sub>ログイン画面</sub></td>
+    <td><img src="images/flashcard.png" width="250px"><br><sub>フラッシュカード</sub></td>
+    <td><img src="images/quiz.png" width="250px"><br><sub>文法クイズ</sub></td>
+  </tr>
+  <tr>
+    <td><img src="images/keigo.png" width="250px"><br><sub>敬語変換</sub></td>
+    <td><img src="images/roleplay.png" width="250px"><br><sub>ロールプレイ</sub></td>
+    <td><img src="images/profile.png" width="250px"><br><sub>プロフィール</sub></td>
+  </tr>
+</table>
